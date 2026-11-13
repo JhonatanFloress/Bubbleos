@@ -20,3 +20,6 @@ const designSetup=setup;setup=function(id,w){designSetup(id,w);if(id==='settings
 let resizeLayoutTimer;addEventListener('resize',()=>{clearTimeout(resizeLayoutTimer);resizeLayoutTimer=setTimeout(()=>{readLayout();arrangeIcons()},150)});
 // Desktop tips replace decorative copy with discoverable functionality.
 const hintLabel=$('.desktop-hint');if(hintLabel)hintLabel.innerHTML='<span>✧</span> Todo en su lugar. O donde tú quieras.<small>ARRASTRA TUS ICONOS · HAZ TUYO EL ESCRITORIO</small>';
+// Release drag styling even if capture is lost or focus leaves the page.
+function clearIconDrag(){desktopIcons.forEach(icon=>icon.classList.remove('icon-dragging'));document.body.classList.remove('dragging-desktop-icon');iconLayer.classList.remove('drag-active')}
+desktopIcons.forEach(icon=>icon.addEventListener('lostpointercapture',clearIconDrag));addEventListener('blur',clearIconDrag);document.addEventListener('visibilitychange',()=>{if(document.hidden)clearIconDrag()});
