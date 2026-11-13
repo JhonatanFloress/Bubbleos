@@ -104,3 +104,4 @@ Los elementos existentes sin carpeta aparecen en la raíz. Las carpetas y la pap
 Inicio → Centro de personalización aplica temas completos y permite reducir transparencias u ocultar los widgets. Elegir un tema vuelve a su paisaje predeterminado; las imágenes importadas permanecen en la galería.
 
 Inicio → Mi sesión guarda la lista de apps abiertas, sus posiciones, tamaños y estado minimizado. La recuperación automática al iniciar es opcional y usa la última distribución guardada manualmente. No conserva dibujos sin descargar ni sustituye los respaldos de datos. Las ventanas se ajustan al espacio disponible al recuperar en otra pantalla.
+# Bubbleos
