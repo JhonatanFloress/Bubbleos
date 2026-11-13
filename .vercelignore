@@ -1,6 +1,5 @@
 .git
 node_modules
 work
-.build-output
 dist
 .DS_Store

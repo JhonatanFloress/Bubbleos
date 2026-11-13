@@ -1,1 +1,0 @@
-Generado desde src con npm run build. No editar dist directamente.
