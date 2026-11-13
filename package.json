@@ -1,8 +1,8 @@
 {
-  "name": "papel-os",
+  "name": "bubbleos",
   "version": "1.0.0",
   "private": true,
-  "description": "Escritorio web estilo Windows Aero en HTML, CSS y JavaScript.",
+  "description": "BubbleOs: escritorio web personal con estilo Windows Aero.",
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "check": "node scripts/check.mjs",

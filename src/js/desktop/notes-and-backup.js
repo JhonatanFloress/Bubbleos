@@ -94,9 +94,9 @@ setup = function (id, w) {
         let key = localStorage.key(i);
         if (key.startsWith('papel-')) data[key] = localStorage.getItem(key);
       }
-      return { app: 'PAPEL OS', version: 1, date: new Date().toISOString(), data };
+      return { app: 'BubbleOs', version: 1, date: new Date().toISOString(), data };
     }
-    function exportNow(name = 'papel-respaldo.json') {
+    function exportNow(name = 'bubbleos-respaldo.json') {
       downloadBlob(
         new Blob([JSON.stringify(snapshot(), null, 2)], { type: 'application/json' }),
         name,
@@ -118,13 +118,13 @@ setup = function (id, w) {
         if (file.size > 5 * 1024 * 1024) throw Error('Archivo demasiado grande.');
         let obj = JSON.parse(await file.text());
         if (
-          obj.app !== 'PAPEL OS' ||
+          !['BubbleOs', 'PAPEL OS'].includes(obj.app) ||
           obj.version !== 1 ||
           !obj.data ||
           typeof obj.data !== 'object' ||
           Array.isArray(obj.data)
         )
-          throw Error('No es un respaldo válido de PAPEL OS.');
+          throw Error('No es un respaldo válido de BubbleOs.');
         const entries = Object.entries(obj.data);
         if (entries.some(([k, v]) => !k.startsWith('papel-') || typeof v !== 'string'))
           throw Error('El respaldo contiene datos no válidos.');
@@ -174,7 +174,7 @@ setup = function (id, w) {
           }
         }
         let before = snapshot();
-        exportNow('papel-antes-de-importar.json');
+        exportNow('bubbleos-antes-de-importar.json');
         try {
           entries.forEach(([k, v]) => localStorage.setItem(k, v));
         } catch (error) {

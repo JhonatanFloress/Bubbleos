@@ -25,7 +25,7 @@ for (const [id, label] of [
 }
 const startFoot = document.createElement('div');
 startFoot.className = 'start-side-foot';
-startFoot.textContent = 'PAPEL OS · AERO EDITION';
+startFoot.textContent = 'BubbleOs · AERO EDITION';
 startSide.append(startFoot);
 const startBody = document.createElement('div');
 startBody.className = 'start-body-grid';
@@ -40,7 +40,7 @@ const heading = startSurface.querySelector('.menu-head');
 heading.innerHTML =
   '<span class="start-brand-mark">' +
   svg('welcome') +
-  '</span><div>PAPEL OS<small>Tu escritorio personal</small></div><span class="start-edition">AERO</span>';
+  '</span><div>BubbleOs<small>Tu escritorio personal</small></div><span class="start-edition">AERO</span>';
 // Pointer-positioned illumination stays within the taskbar buttons.
 for (const node of [
   document.querySelector('#startbutton'),

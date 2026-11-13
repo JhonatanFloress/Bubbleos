@@ -56,13 +56,13 @@ function body(id) {
     case 'welcome':
       return `<div class="welcome-content"><span class="eyebrow">TU ESCRITORIO. TUS REGLAS.</span><h1>Todo empieza<br>con un <em>clic.</em></h1><p>Un pequeño sistema de ventanas para tus grandes ideas. Explora, escribe, dibuja. Aquí el tiempo va a tu ritmo.</p><div class="welcome-bottom"><button class="primary" data-open="files">Explorar escritorio ↗</button><div class="stamp">✳</div></div></div>`;
     case 'files':
-      return `<div class="file-toolbar">↰ <span class="path">PAPEL / Escritorio</span><span>⊞</span></div><div class="file-grid"><button class="file-item" data-open="notes">${svg('notes')}<span>Ideas.txt</span><small>DOCUMENTO</small></button><button class="file-item" data-open="draw">${svg('draw')}<span>Sin título.png</span><small>ESTUDIO</small></button><button class="file-item" data-open="terminal">${svg('terminal')}<span>Terminal.exe</span><small>APLICACIÓN</small></button><button class="file-item" data-open="calc">${svg('calc')}<span>Calculadora</span><small>UTILIDAD</small></button><button class="file-item" data-open="settings">${svg('settings')}<span>Preferencias</span><small>SISTEMA</small></button>${!deleted ? '<button class="file-item" id="deletefile">' + svg('notes') + '<span>Borrador.txt</span><small>CLIC PARA ELIMINAR</small></button>' : ''}</div>`;
+      return `<div class="file-toolbar">↰ <span class="path">BubbleOs / Escritorio</span><span>⊞</span></div><div class="file-grid"><button class="file-item" data-open="notes">${svg('notes')}<span>Ideas.txt</span><small>DOCUMENTO</small></button><button class="file-item" data-open="draw">${svg('draw')}<span>Sin título.png</span><small>ESTUDIO</small></button><button class="file-item" data-open="terminal">${svg('terminal')}<span>Terminal.exe</span><small>APLICACIÓN</small></button><button class="file-item" data-open="calc">${svg('calc')}<span>Calculadora</span><small>UTILIDAD</small></button><button class="file-item" data-open="settings">${svg('settings')}<span>Preferencias</span><small>SISTEMA</small></button>${!deleted ? '<button class="file-item" id="deletefile">' + svg('notes') + '<span>Borrador.txt</span><small>CLIC PARA ELIMINAR</small></button>' : ''}</div>`;
     case 'notes':
       return '<textarea class="note" aria-label="Escribe tus notas" spellcheck="false"></textarea>';
     case 'draw':
       return '<div class="drawing"><div class="drawtools"><span>Lápiz</span><input type="color" value="#292a26" aria-label="Color del lápiz"><button id="clearcanvas">Borrar</button><button id="downloadcanvas">Guardar PNG ↗</button></div><canvas width="960" height="500" aria-label="Lienzo de dibujo"></canvas></div>';
     case 'terminal':
-      return '<div class="terminal"><p>PAPEL OS [versión 1.0.26]\nTodo un universo, 0 complicaciones.\n\nEscribe «help» para empezar.</p><div id="terminalout"></div><label>papel:~ $ <input autocomplete="off" spellcheck="false" aria-label="Comando"></label></div>';
+      return '<div class="terminal"><p>BubbleOs [versión 1.0.26]\nTodo un universo, 0 complicaciones.\n\nEscribe «help» para empezar.</p><div id="terminalout"></div><label>bubbleos:~ $ <input autocomplete="off" spellcheck="false" aria-label="Comando"></label></div>';
     case 'calc':
       return (
         '<div class="calc"><output>0</output><div class="keys">' +
@@ -146,7 +146,7 @@ function openApp(id) {
   w.style.top =
     ((mobile ? 45 + opened.size * 8 : 48 + opened.size * 25) % Math.max(80, innerHeight - 350)) +
     'px';
-  w.innerHTML = `<div class="titlebar"><span>▧</span><strong>${name}</strong><span class="grip"></span><div class="controls"><button data-action="min" aria-label="Minimizar">−</button><button data-action="max" aria-label="Maximizar">□</button><button data-action="close" aria-label="Cerrar">×</button></div></div><div class="menubar"><span>PAPEL / ${id === 'welcome' ? 'INICIO' : name.toUpperCase()}</span><span>LOCAL</span></div><div class="content">${body(id)}</div><div class="window-status"><span>${id === 'notes' ? 'Guardado automático' : 'SISTEMA LISTO'}</span><span>↙ ${String(opened.size + 1).padStart(2, '0')}</span></div>`;
+  w.innerHTML = `<div class="titlebar"><span>▧</span><strong>${name}</strong><span class="grip"></span><div class="controls"><button data-action="min" aria-label="Minimizar">−</button><button data-action="max" aria-label="Maximizar">□</button><button data-action="close" aria-label="Cerrar">×</button></div></div><div class="menubar"><span>BubbleOs / ${id === 'welcome' ? 'INICIO' : name.toUpperCase()}</span><span>LOCAL</span></div><div class="content">${body(id)}</div><div class="window-status"><span>${id === 'notes' ? 'Guardado automático' : 'SISTEMA LISTO'}</span><span>↙ ${String(opened.size + 1).padStart(2, '0')}</span></div>`;
   $('#windows').append(w);
   opened.set(id, w);
   w.addEventListener('pointerdown', () => focus(w));
@@ -250,7 +250,7 @@ function setup(id, w) {
     w.querySelector('#clearcanvas').onclick = () => ctx.clearRect(0, 0, c.width, c.height);
     w.querySelector('#downloadcanvas').onclick = () => {
       let a = document.createElement('a');
-      a.download = 'papel-dibujo.png';
+      a.download = 'bubbleos-dibujo.png';
       a.href = c.toDataURL();
       a.click();
       toast('Dibujo descargado.');

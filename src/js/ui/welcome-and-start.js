@@ -2,7 +2,7 @@
 const designBody = body;
 body = function (id) {
   if (id === 'welcome')
-    return `<div class="welcome-dashboard"><div class="welcome-brand"><span class="brand-orb"><i></i><i></i><i></i><i></i></span><div>PAPEL<span>personal operating space</span></div><small>GLASS EDITION / 03</small></div><div class="welcome-hero"><span class="welcome-kicker">UN ESCRITORIO CON POSIBILIDADES.</span><h1>Un pequeño mundo.<br><em>Muy tuyo.</em></h1><p>Ideas, música y un poco de tiempo para jugar.<br>Todo encuentra su lugar aquí.</p></div><div class="welcome-tiles"><button data-open="files">${svg('files')}<span>Explorar<small>Tus archivos, a mano</small></span><b>↗</b></button><button data-open="editor">${svg('editor')}<span>Crear algo<small>Una página en blanco</small></span><b>↗</b></button><button data-open="music">${svg('music')}<span>Darle play<small>Un momento para ti</small></span><b>↗</b></button></div><div class="welcome-signoff"><span class="tiny-dot"></span> TU ESPACIO ESTÁ LISTO <span>Hazlo tuyo. ✧</span></div></div>`;
+    return `<div class="welcome-dashboard"><div class="welcome-brand"><span class="brand-orb"><i></i><i></i><i></i><i></i></span><div>BubbleOs<span>personal operating space</span></div><small>GLASS EDITION / 03</small></div><div class="welcome-hero"><span class="welcome-kicker">UN ESCRITORIO CON POSIBILIDADES.</span><h1>Un pequeño mundo.<br><em>Muy tuyo.</em></h1><p>Ideas, música y un poco de tiempo para jugar.<br>Todo encuentra su lugar aquí.</p></div><div class="welcome-tiles"><button data-open="files">${svg('files')}<span>Explorar<small>Tus archivos, a mano</small></span><b>↗</b></button><button data-open="editor">${svg('editor')}<span>Crear algo<small>Una página en blanco</small></span><b>↗</b></button><button data-open="music">${svg('music')}<span>Darle play<small>Un momento para ti</small></span><b>↗</b></button></div><div class="welcome-signoff"><span class="tiny-dot"></span> TU ESPACIO ESTÁ LISTO <span>Hazlo tuyo. ✧</span></div></div>`;
   return designBody(id);
 };
 apps.welcome[1] = 530;
@@ -11,7 +11,7 @@ const widget = document.createElement('section');
 widget.className = 'desktop-widget';
 widget.setAttribute('aria-label', 'Reloj y calendario del escritorio');
 widget.innerHTML =
-  '<div class="widget-top"><span class="widget-orb">✧</span><span>PAPEL / DESKTOP</span><button data-open="settings" aria-label="Personalizar escritorio">⚙</button></div><button class="widget-time" data-open="clock" aria-label="Abrir reloj"></button><button class="widget-date" data-open="calendar" aria-label="Abrir calendario"></button><div class="widget-divider"></div><div class="widget-month-head"><span></span><button data-open="calendar">VER CALENDARIO ↗</button></div><div class="widget-days"></div><div class="widget-bottom"><span class="tiny-dot"></span> Una cosa a la vez.</div>';
+  '<div class="widget-top"><span class="widget-orb">✧</span><span>BubbleOs / DESKTOP</span><button data-open="settings" aria-label="Personalizar escritorio">⚙</button></div><button class="widget-time" data-open="clock" aria-label="Abrir reloj"></button><button class="widget-date" data-open="calendar" aria-label="Abrir calendario"></button><div class="widget-divider"></div><div class="widget-month-head"><span></span><button data-open="calendar">VER CALENDARIO ↗</button></div><div class="widget-days"></div><div class="widget-bottom"><span class="tiny-dot"></span> Una cosa a la vez.</div>';
 $('#desktop').append(widget);
 function updateWidget() {
   const date = new Date();

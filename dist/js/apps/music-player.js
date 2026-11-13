@@ -5,7 +5,7 @@ body = function (id) {
   if (id !== 'music') return localMusicBody(id);
   return `
     <div class="local-player">
-      <div class="local-player-heading"><span>♫ PAPEL MEDIA PLAYER</span><button class="audio-import">＋ Importar música</button></div>
+      <div class="local-player-heading"><span>♫ BubbleOs MEDIA PLAYER</span><button class="audio-import">＋ Importar música</button></div>
       <div class="audio-art" aria-hidden="true"><div class="audio-record"><i></i></div><span>PERSONAL SOUND COLLECTION</span></div>
       <h2 class="audio-title">Tu música, aquí.</h2>
       <p class="audio-description">Importa archivos de audio desde tu equipo.</p>

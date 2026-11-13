@@ -4,9 +4,9 @@ apps.terminal[2] = 480;
 const terminalBody = body;
 body = function (id) {
   if (id !== 'terminal') return terminalBody(id);
-  return `<div class="terminal-plus" data-theme="mint"><div class="term-toolbar"><span><i></i> PAPEL SHELL</span><div><button data-termtheme="mint" aria-label="Tema menta">●</button><button data-termtheme="amber" aria-label="Tema ámbar">●</button><button data-termtheme="violet" aria-label="Tema violeta">●</button></div><small>LOCAL SESSION / 01</small></div><div class="term-scroll" role="log" aria-label="Salida de terminal"><div class="term-welcome"><pre class="term-cat"> /\_/\\
+  return `<div class="terminal-plus" data-theme="mint"><div class="term-toolbar"><span><i></i> BubbleOs SHELL</span><div><button data-termtheme="mint" aria-label="Tema menta">●</button><button data-termtheme="amber" aria-label="Tema ámbar">●</button><button data-termtheme="violet" aria-label="Tema violeta">●</button></div><small>LOCAL SESSION / 01</small></div><div class="term-scroll" role="log" aria-label="Salida de terminal"><div class="term-welcome"><pre class="term-cat"> /\_/\\
 ( o.o )
- &gt; ^ &lt;</pre><div><span class="term-eyebrow">UN PEQUEÑO GATO EN TU COMPUTADORA</span><h2>hola, humano<span>_</span></h2><p>Traje comandos, buenas ideas y cero prisa.</p><small>Escribe <b>help</b> para descubrir lo que puedes hacer.</small></div></div><div class="term-quick"><button data-termcmd="help">✧ Explorar comandos</button><button data-termcmd="cat">♡ Otro gatito</button><button data-termcmd="fortune">☼ Una idea para hoy</button></div><div class="term-output"></div><form class="term-form"><label><span class="term-prompt">you<span>@</span>papel <b>~</b> ❯</span><input aria-label="Comando de terminal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="haz algo bonito…"></label></form></div><div class="term-bottom"><span>↑ ↓ HISTORIAL</span><span>TAB AUTOCOMPLETA</span><span>CTRL + L LIMPIA</span><span>UTF-8 &nbsp; ♡</span></div></div>`;
+ &gt; ^ &lt;</pre><div><span class="term-eyebrow">UN PEQUEÑO GATO EN TU COMPUTADORA</span><h2>hola, humano<span>_</span></h2><p>Traje comandos, buenas ideas y cero prisa.</p><small>Escribe <b>help</b> para descubrir lo que puedes hacer.</small></div></div><div class="term-quick"><button data-termcmd="help">✧ Explorar comandos</button><button data-termcmd="cat">♡ Otro gatito</button><button data-termcmd="fortune">☼ Una idea para hoy</button></div><div class="term-output"></div><form class="term-form"><label><span class="term-prompt">you<span>@</span>bubbleos <b>~</b> ❯</span><input aria-label="Comando de terminal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="haz algo bonito…"></label></form></div><div class="term-bottom"><span>↑ ↓ HISTORIAL</span><span>TAB AUTOCOMPLETA</span><span>CTRL + L LIMPIA</span><span>UTF-8 &nbsp; ♡</span></div></div>`;
 };
 const terminalSetup = setup;
 setup = function (id, w) {
@@ -116,7 +116,7 @@ setup = function (id, w) {
     const parts = value.split(/\s+/),
       cmd = parts.shift().toLowerCase(),
       args = parts.join(' ');
-    write('you@papel ~ ❯ ' + value, 'command');
+    write('you@bubbleos ~ ❯ ' + value, 'command');
     switch (cmd) {
       case 'help':
         write(
@@ -238,7 +238,7 @@ setup = function (id, w) {
         break;
       case 'about':
         write(
-          'PAPEL SHELL\nUn rincón para crear, jugar y organizarte.\nLos comandos actúan solo dentro de este escritorio web.\nTus notas e historial se guardan en este navegador.\nNo ejecuta comandos del sistema ni accede a tu computadora.',
+          'BubbleOs SHELL\nUn rincón para crear, jugar y organizarte.\nLos comandos actúan solo dentro de este escritorio web.\nTus notas e historial se guardan en este navegador.\nNo ejecuta comandos del sistema ni accede a tu computadora.',
         );
         break;
       case 'calc':
@@ -353,7 +353,7 @@ setup = function (id, w) {
   if (id !== 'terminal') return;
   const welcome = w.querySelector('.term-welcome'),
     cat = w.querySelector('.term-cat');
-  w.querySelector('.term-eyebrow').textContent = 'PAPEL SHELL / TU ESPACIO DE COMANDOS';
+  w.querySelector('.term-eyebrow').textContent = 'BubbleOs SHELL / TU ESPACIO DE COMANDOS';
   w.querySelector('.term-welcome h2').textContent = 'Terminal';
   w.querySelector('.term-welcome p').textContent = 'Crea, organiza y abre tus herramientas.';
   w.querySelector('.term-quick [data-termcmd="cat"]').remove();

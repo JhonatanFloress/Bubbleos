@@ -2,7 +2,7 @@
 const simpleBody = body;
 body = function (id) {
   if (id !== 'terminal') return simpleBody(id);
-  return '<div class="simple-terminal"><pre class="simple-cat"></pre><div class="simple-output" role="log" aria-label="Salida de terminal"></div><form><label><span>papel:~ $</span><input aria-label="Comando de terminal" autocomplete="off" autocapitalize="off" spellcheck="false"></label></form></div>';
+  return '<div class="simple-terminal"><pre class="simple-cat"></pre><div class="simple-output" role="log" aria-label="Salida de terminal"></div><form><label><span>bubbleos:~ $</span><input aria-label="Comando de terminal" autocomplete="off" autocapitalize="off" spellcheck="false"></label></form></div>';
 };
 const simpleSetup = setup;
 setup = function (id, w) {
@@ -36,7 +36,7 @@ setup = function (id, w) {
     index = history.length;
     let [cmd, ...parts] = value.split(/\s+/),
       args = parts.join(' ');
-    line('papel:~ $ ' + value);
+    line('bubbleos:~ $ ' + value);
     switch (cmd.toLowerCase()) {
       case 'help':
         line(

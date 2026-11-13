@@ -60,7 +60,7 @@ setup = function (id, w) {
     toolbar.innerHTML =
       '<button class="explorer-back" data-open="welcome" aria-label="Abrir bienvenida">‹</button><div class="explorer-breadcrumb">' +
       svg('files') +
-      '<span>PAPEL</span><b>›</b><strong>Escritorio</strong></div><span class="explorer-view-label">ICONOS</span>';
+      '<span>BubbleOs</span><b>›</b><strong>Escritorio</strong></div><span class="explorer-view-label">ICONOS</span>';
   }
   const cards = main.querySelectorAll('.file-item');
   cards.forEach((b) => {

@@ -52,7 +52,7 @@ function showTray(kind) {
     const player = opened.get('music'),
       slider = player?.querySelector('#volume');
     trayPanel.innerHTML =
-      '<div class="tray-panel-heading">Sonido de PAPEL</div><div class="tray-volume-icon">♫</div><p>Volumen del reproductor</p><label class="tray-volume-row"><span>◀</span><input id="trayvolume" aria-label="Volumen del reproductor" type="range" min="0" max="0.3" step="0.01" value="' +
+      '<div class="tray-panel-heading">Sonido de BubbleOs</div><div class="tray-volume-icon">♫</div><p>Volumen del reproductor</p><label class="tray-volume-row"><span>◀</span><input id="trayvolume" aria-label="Volumen del reproductor" type="range" min="0" max="0.3" step="0.01" value="' +
       (slider?.value || read('papel-player-volume', '0.12')) +
       '"><output id="trayvolumevalue"></output></label><small>Controla Media Player dentro de este sitio.</small><button class="tray-link" data-open="music">Abrir Media Player ↗</button>';
     const range = trayPanel.querySelector('input'),

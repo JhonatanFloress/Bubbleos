@@ -1,4 +1,4 @@
-// PAPEL OS 2 — apps y controles adicionales, sin dependencias.
+// BubbleOs 2 — apps y controles adicionales, sin dependencias.
 Object.assign(apps, {
   calendar: ['Calendario', 410, 420],
   music: ['Media Player', 420, 370],
@@ -22,7 +22,7 @@ body = function (id) {
     return '<div class="extra-pad"><h2>Una cosa a la vez.</h2><form id="todoform"><input id="todoinput" placeholder="¿Qué quieres hacer?" aria-label="Nuevo pendiente" maxlength="180" required><button class="primary">Añadir</button></form><div id="todolist"></div><p id="todocount"></p></div>';
   if (id === 'music')
     return (
-      '<div class="player"><div class="album"><span>♫</span><small>PAPEL / SOUND LAB</small></div><h2 id="trackname">Cielo azul</h2><p>Melodías sintetizadas · Sin archivos externos</p><div class="visualizer">' +
+      '<div class="player"><div class="album"><span>♫</span><small>BubbleOs / SOUND LAB</small></div><h2 id="trackname">Cielo azul</h2><p>Melodías sintetizadas · Sin archivos externos</p><div class="visualizer">' +
       Array.from({ length: 18 }, (_, i) => `<i style="--delay:${i * 0.08}s"></i>`).join('') +
       '</div><div class="player-controls"><button id="prevtrack" aria-label="Pista anterior">◀◀</button><button id="playtrack">▶ Reproducir</button><button id="nexttrack" aria-label="Siguiente pista">▶▶</button></div><label>Volumen <input id="volume" type="range" min="0" max="0.3" step="0.01" value="0.12"></label></div>'
     );
