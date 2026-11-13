@@ -86,3 +86,7 @@ Prettier usa dos espacios y líneas de hasta 100 caracteres cuando la sintaxis l
 En Explorador → Mis archivos puedes crear carpetas, buscar dentro de la carpeta actual, renombrar y mover archivos usando el menú `⋯`. La papelera de esta pestaña permite recuperar elementos sin borrarlos definitivamente. Las carpetas con contenido deben vaciarse moviendo sus archivos antes de enviarlas a la papelera.
 
 Los elementos existentes sin carpeta aparecen en la raíz. Las carpetas y la papelera usan el mismo almacén IndexedDB; no se envían archivos a un servidor. La galería omite los archivos enviados a la papelera al actualizar su lista.
+
+## Sonido de clic
+
+`src/js/desktop/interface-sounds.js` genera un clic corto con Web Audio al activar botones. Configuración → Sonidos de la interfaz permite silenciarlo o ajustar el volumen; ambas preferencias se guardan localmente. El sonido se inicia tras una interacción del usuario, no durante el arranque ni al arrastrar iconos.

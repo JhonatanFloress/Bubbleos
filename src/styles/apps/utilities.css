@@ -371,3 +371,50 @@
     flex-wrap: wrap;
   }
 }
+
+.interface-sound-settings {
+  padding: 21px;
+  border-bottom: 1px solid #d2e3ef;
+  background: linear-gradient(#f9fdff, #edf6fb);
+}
+.interface-sound-settings h3 {
+  margin: 0 0 15px;
+  color: #547e95;
+  font-size: 16px;
+  font-weight: normal;
+}
+.interface-sound-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6a8c9f;
+  font-size: 10px;
+  line-height: 1.7;
+}
+.interface-sound-toggle input,
+.interface-sound-volume input {
+  accent-color: #78adc7;
+}
+.interface-sound-volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 17px 0;
+  color: #6e91a5;
+  font-size: 10px;
+}
+.interface-sound-volume input {
+  flex: 1;
+  min-width: 0;
+}
+.interface-sound-volume output {
+  min-width: 30px;
+  font-size: 9px;
+}
+.interface-sound-settings small {
+  display: block;
+  margin-top: 12px;
+  color: #94aebc;
+  font-size: 8px;
+  line-height: 1.7;
+}
