@@ -1,0 +1,423 @@
+/* Aero details: shared chrome, readable surfaces and restrained highlights. */
+:root {
+  --aero-ink: #355e78;
+  --aero-muted: #7897aa;
+  --aero-edge: #b2cfdf;
+  --aero-focus: #72b5d9;
+}
+.window {
+  border-radius: 9px 9px 7px 7px;
+  border-color: #c8e7f7a6;
+  outline-color: #648ba9c9;
+  box-shadow:
+    0 16px 44px #0a2e4845,
+    0 3px 7px #193c5655;
+}
+.window.active {
+  outline-color: #6c9ebc;
+  box-shadow:
+    0 22px 60px #0d304e55,
+    0 3px 8px #19435a44,
+    inset 0 0 0 1px #efffff66;
+}
+.window:not(.active) {
+  filter: saturate(0.84);
+}
+.titlebar,
+.active .titlebar {
+  background: linear-gradient(
+    116deg,
+    #edfaffdc 0%,
+    #b8d8edbd 28%,
+    #eaf8ffb0 43%,
+    #a2c7e2a8 59%,
+    #cae6f6c9 100%
+  );
+}
+.titlebar strong {
+  font-size: 12px;
+  color: #2d536c;
+  text-shadow:
+    0 1px #fff,
+    0 0 7px #ffffffb0;
+}
+.titlebar .title-app-icon {
+  margin-right: 1px;
+}
+.controls {
+  box-shadow:
+    0 1px #ffffff99,
+    0 2px 4px #2e5c7333;
+}
+.controls button:active {
+  filter: brightness(0.94);
+  box-shadow: inset 0 1px 4px #22496344;
+}
+.menubar {
+  background: linear-gradient(#fff, #eaf2f8);
+  color: #7b94a5;
+  border-bottom-color: #cadce8;
+}
+.window-status {
+  color: #7b98ac;
+  font-size: 8px;
+  letter-spacing: 0.3px;
+}
+.window.active .window-status {
+  background: linear-gradient(#f0f8fe, #e0edf7);
+}
+/* Focus and interactive states have one visual language across apps. */
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #76b6d8;
+  outline-offset: 2px;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #92c6e166;
+  outline-offset: 1px;
+}
+.primary {
+  border-color: #a9c5d9;
+  color: #47708b;
+  background: linear-gradient(#fff 0%, #f2f9fd 45%, #e3f0f8 49%, #f2f9fe 100%);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px #fff,
+    0 2px 3px #49738d12;
+}
+.primary:hover {
+  border-color: #7eafd0;
+  background: linear-gradient(#fff, #d8effd);
+  box-shadow:
+    inset 0 1px #fff,
+    0 0 0 3px #b2dff522;
+}
+.primary:active {
+  transform: translateY(1px);
+  background: #dbeef9;
+}
+.extra-pad h2 {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  color: #527d96;
+  letter-spacing: -0.4px;
+}
+.extra-pad p {
+  color: #7d9aac;
+}
+/* An inset digital clock and softer calendar cells. */
+.desktop-widget {
+  border-radius: 12px;
+  background: linear-gradient(133deg, #f1fcff36, #3e729238 58%, #67a4a340);
+  box-shadow:
+    inset 0 1px #f4ffffb3,
+    inset 0 0 0 4px #ffffff08,
+    0 12px 40px #164b692b;
+}
+.widget-top {
+  letter-spacing: 1.4px;
+  color: #ebfaffdd;
+}
+.widget-orb {
+  background: radial-gradient(ellipse at 40% 10%, #fff8, #b6e1ef55 45%, #669cb255);
+  box-shadow:
+    inset 0 1px #fff9,
+    0 2px 5px #31677a22;
+}
+.widget-time {
+  font-size: 65px;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 7px #22536e22;
+}
+.widget-date {
+  font-size: 10px;
+  letter-spacing: 0.25px;
+  color: #f4fdff;
+}
+.widget-days > span:not(:empty) {
+  border-radius: 4px;
+  background: #e9faff05;
+}
+.widget-days .widget-today {
+  border-radius: 5px;
+  background: linear-gradient(#f3fdffbd, #9dcedfb3);
+  box-shadow:
+    inset 0 1px #fff,
+    0 2px 5px #376f8b22;
+  color: #3d6c85;
+  border-color: #edffffd9;
+}
+.widget-bottom {
+  border-top-color: #e8ffff3b;
+  color: #e4f8ff;
+}
+/* App-specific surfaces: retain data density but improve visual grouping. */
+.note-tools {
+  background: linear-gradient(#f9fdff, #eaf3f9);
+  border-bottom-color: #ccdfeb;
+}
+.note-tools input {
+  border-color: #bdd3e3;
+  box-shadow: inset 0 1px 2px #527c9410;
+}
+.note-tools button,
+.todo-filters button,
+.editor-bar button {
+  background: linear-gradient(#fff, #e7f2f9);
+  color: #7392a6;
+  border-color: #bbd3e2;
+  border-radius: 4px;
+}
+.note-count {
+  font-variant-numeric: tabular-nums;
+}
+.note {
+  background: linear-gradient(90deg, #eaf4fa 0 2px, #fffefa 2px);
+  color: #547387;
+}
+.editor-bar {
+  background: linear-gradient(#f9fdff, #e8f2f9);
+  padding: 10px;
+  gap: 7px;
+  border-bottom: 1px solid #d5e5ef;
+}
+#doctabs {
+  background: #e8f2f9;
+  padding-top: 9px;
+  gap: 5px;
+}
+#doctabs button {
+  padding: 8px 13px;
+  border-color: #b9d2e2;
+  color: #7896aa;
+  background: linear-gradient(#fbfeff, #e0edf6);
+}
+#doctabs .selected {
+  background: #fffefa;
+  border-top-color: #86b8d4;
+  color: #4e7b94;
+}
+#docname {
+  padding: 14px 18px;
+  background: #fffefa;
+  border-color: #e0e9ee;
+  color: #507d95;
+  font-family: Georgia, serif;
+  font-size: 21px;
+}
+#doccontent {
+  padding: 17px 20px;
+  color: #577486;
+  background: #fffefa;
+}
+#docstats {
+  background: #f4f9fc;
+  color: #8ba5b5;
+  font-size: 8px;
+}
+.todo-row {
+  padding: 13px 7px;
+  border-color: #deebf3;
+  border-radius: 3px;
+}
+.todo-row:hover {
+  background: #eff7fc;
+}
+.todo-row input {
+  width: 14px;
+  height: 14px;
+  accent-color: #86b4cd;
+}
+.todo-row span {
+  font-size: 11px;
+  color: #64879d;
+}
+.todo-filters button {
+  border-radius: 13px;
+  padding: 6px 12px;
+}
+.budget-totals {
+  gap: 9px;
+}
+.budget-totals span {
+  position: relative;
+  border-color: #ccdfeb;
+  padding: 15px 9px;
+  background: linear-gradient(140deg, #fff, #ecf6fc);
+  box-shadow:
+    inset 0 1px #fff,
+    0 3px 10px #527b9409;
+}
+.budget-totals span:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: #b4d5e8;
+  border-radius: 2px;
+}
+.budget-totals span:nth-child(2):before {
+  background: #b9d8bf;
+}
+.budget-totals span:nth-child(3):before {
+  background: #dfc5b7;
+}
+.budget-row {
+  padding: 12px 4px;
+  color: #7292a7;
+  border-color: #dce9f1;
+}
+.calc {
+  padding: 19px;
+  background: linear-gradient(135deg, #f6fbff, #dfedf7);
+}
+.calc output {
+  border: 1px solid #a9c6db;
+  border-radius: 5px;
+  padding: 17px 12px;
+  background: linear-gradient(#f5fbff, #e5f1f9);
+  color: #4b7792;
+  box-shadow:
+    inset 0 2px 5px #507d9810,
+    0 1px #fff;
+}
+.keys {
+  gap: 7px;
+}
+.keys button {
+  border: 1px solid #b2ccde;
+  border-radius: 5px;
+  background: linear-gradient(#fff, #e6f1f9);
+  color: #5c829a;
+  box-shadow:
+    inset 0 1px #fff,
+    0 1px 2px #49728c12;
+  padding: 12px;
+}
+.keys button:hover {
+  background: linear-gradient(#fff, #d7eefc);
+  border-color: #85b3d0;
+}
+.keys button:last-child {
+  background: linear-gradient(#eefbff, #bddff3);
+  border-color: #91bfd8;
+  color: #4f7d99;
+}
+/* Contextual menus and system panels match the same glass frame. */
+#tray-panel,
+#window-tools-menu,
+#desktop-context {
+  border-color: #9fc1d7;
+  box-shadow:
+    inset 0 1px #fff9,
+    0 12px 35px #17405f44;
+  background: linear-gradient(135deg, #f4fcfff0, #dcebf6ed);
+}
+#desktop-context button,
+#window-tools-menu > button {
+  color: #67899f;
+}
+#desktop-context button:hover,
+#window-tools-menu > button:hover {
+  background: linear-gradient(#f3fbff, #d2eaf9);
+  box-shadow: inset 0 0 0 1px #b3d6e9;
+}
+#toast {
+  background: linear-gradient(#f9fefff5, #e3f1faf0);
+  border-color: #a3c6da;
+  color: #63879e;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px white,
+    0 8px 25px #23537233;
+  font-size: 10px;
+}
+.tray-panel-heading {
+  color: #63869d;
+}
+.tray-shortcuts button {
+  box-shadow:
+    inset 0 1px white,
+    0 2px 5px #5b859d0a;
+}
+/* A subtly framed personal photo preview. */
+.gallery-stage {
+  box-shadow: inset 0 3px 12px #2b66850b;
+  background: radial-gradient(ellipse, #fbfdff, #e6eff7);
+}
+.gallery-stage > img {
+  padding: 17px;
+  filter: drop-shadow(0 3px 8px #284e6c22);
+}
+.gallery-stage.gallery-zoomed > img {
+  padding: 0;
+}
+#gallerythumbs {
+  background: linear-gradient(#eaf3f9, #dfedf6);
+  box-shadow: inset 0 1px #ffffff88;
+}
+#gallerythumbs button {
+  padding: 4px;
+  background: #fbfeff;
+}
+#gallerythumbs .thumb-active {
+  border-color: #7eb4d1;
+  box-shadow:
+    0 0 0 2px #bddfeeaa,
+    0 2px 4px #4c7d991a;
+}
+/* Preserve the requested plain terminal and personalized glass colors. */
+.window[data-app='terminal'] .content,
+.simple-terminal {
+  background: #111;
+}
+#desktop[data-glasstone='sage'] .titlebar {
+  background: linear-gradient(115deg, #f1ffe7cc, #b4d5bdbb 45%, #d4e7c9bb);
+}
+#desktop[data-glasstone='rose'] .titlebar {
+  background: linear-gradient(115deg, #fff2fac9, #d5b5cdbb 45%, #edd3e0bb);
+}
+#desktop[data-glasstone='slate'] .titlebar {
+  background: linear-gradient(115deg, #eff5fcc9, #a7b8cebb 45%, #c9d6e7bb);
+}
+@media (max-width: 700px) {
+  .titlebar strong {
+    font-size: 11px;
+  }
+  .widget-time {
+    font-size: 47px;
+  }
+  .widget-days > span:not(:empty) {
+    border-radius: 3px;
+  }
+  .extra-pad h2 {
+    font-size: 22px;
+  }
+  .keys button {
+    padding: 11px;
+  }
+  .note-tools {
+    padding: 8px;
+  }
+  #docname {
+    font-size: 19px;
+    padding: 12px 14px;
+  }
+  #doccontent {
+    padding: 14px;
+  }
+  .budget-totals {
+    gap: 6px;
+  }
+  .budget-totals span {
+    padding: 12px 6px;
+  }
+  .gallery-stage > img {
+    padding: 10px;
+  }
+}
