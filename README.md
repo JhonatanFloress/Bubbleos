@@ -90,3 +90,7 @@ Los elementos existentes sin carpeta aparecen en la raíz. Las carpetas y la pap
 ## Sonido de clic
 
 `src/js/desktop/interface-sounds.js` genera un clic corto con Web Audio al activar botones. Configuración → Sonidos de la interfaz permite silenciarlo o ajustar el volumen; ambas preferencias se guardan localmente. El sonido se inicia tras una interacción del usuario, no durante el arranque ni al arrastrar iconos.
+
+## Música local
+
+`src/js/apps/music-player.js` implementa Media Player con archivos de audio guardados en IndexedDB. Permite importar hasta 10 MB por canción, reproducir/pausar, avanzar, retroceder, buscar una posición, ajustar volumen, repetir y usar modo aleatorio. Cerrar la ventana detiene el audio; minimizarla permite seguir escuchando. Los formatos dependen del navegador.
