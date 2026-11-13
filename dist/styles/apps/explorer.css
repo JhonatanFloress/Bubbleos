@@ -448,3 +448,120 @@
     display: none !important;
   }
 }
+
+/* Personal file organization */
+.file-organizer {
+  padding: 0 15px 12px;
+  display: grid;
+  gap: 9px;
+}
+.file-organizer-path {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.file-organizer-path > button {
+  border: 1px solid #b4cddd;
+  background: linear-gradient(#fff, #e7f3fa);
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #6e91a7;
+  font-size: 9px;
+}
+.folder-path {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 10px;
+  color: #6e91a7;
+}
+.file-search,
+.new-folder-form input {
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #b7d0e1;
+  border-radius: 4px;
+  background: #fff;
+  color: #557d94;
+  font-size: 10px;
+}
+.new-folder-form {
+  display: flex;
+  gap: 6px;
+}
+.new-folder-form[hidden] {
+  display: none;
+}
+.new-folder-form input {
+  flex: 1;
+}
+.new-folder-form .primary {
+  font-size: 9px;
+  padding: 7px 8px;
+}
+.file-organizer-count {
+  color: #95acbc;
+  font-size: 8px;
+}
+.cabinet-actions {
+  position: relative;
+  font-size: 10px;
+}
+.cabinet-actions[hidden] {
+  display: none;
+}
+.cabinet-actions summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 3px 7px;
+  border: 1px solid #bfd4e2;
+  border-radius: 4px;
+  background: #edf7fc;
+  color: #7394aa;
+}
+.cabinet-actions[open] {
+  width: 100%;
+  order: 6;
+}
+.cabinet-row {
+  flex-wrap: wrap;
+}
+.cabinet-actions form,
+.cabinet-actions > div {
+  display: flex;
+  gap: 6px;
+  margin-top: 7px;
+}
+.cabinet-actions input,
+.cabinet-actions select {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #b5cfdf;
+  background: white;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #6589a0;
+}
+.cabinet-actions button {
+  border: 1px solid #b7d0e0;
+  border-radius: 4px;
+  background: #edf7fd;
+  padding: 6px;
+  color: #6c90a6;
+  font-size: 9px;
+}
+@media (max-width: 700px) {
+  .file-organizer {
+    padding: 0 10px 10px;
+  }
+  .new-folder-form {
+    flex-wrap: wrap;
+  }
+  .file-organizer-path {
+    flex-wrap: wrap;
+  }
+  .folder-path {
+    min-width: 70px;
+  }
+}

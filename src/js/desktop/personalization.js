@@ -177,7 +177,7 @@ setup = function (id, w) {
         stop();
         urls.forEach(URL.revokeObjectURL);
         photos = all.filter(
-          (f) => f.blob.type.startsWith('image/') && !f.blob.type.includes('svg'),
+          (f) => !f.deleted && f.blob.type.startsWith('image/') && !f.blob.type.includes('svg'),
         );
         urls = photos.map((f) => URL.createObjectURL(f.blob));
         index = Math.min(index, Math.max(0, photos.length - 1));

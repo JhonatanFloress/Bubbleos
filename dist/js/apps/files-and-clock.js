@@ -52,6 +52,76 @@ setup = function (id, w) {
   if (id === 'files') {
     const list = w.querySelector('#cabinetlist'),
       preview = w.querySelector('#filepreview');
+    let currentFolder = null;
+    let viewingTrash = false;
+    let renderVersion = 0;
+    const controls = document.createElement('div');
+    controls.className = 'file-organizer';
+    controls.innerHTML = `
+      <div class="file-organizer-path">
+        <button class="folder-up" aria-label="Subir carpeta">↑</button>
+        <span class="folder-path">Mis archivos</span>
+        <button class="file-trash-toggle">Papelera</button>
+      </div>
+      <input class="file-search" aria-label="Buscar archivos" placeholder="Buscar en esta carpeta…">
+      <form class="new-folder-form">
+        <input aria-label="Nombre de nueva carpeta" placeholder="Nombre de carpeta" maxlength="80" required>
+        <button class="primary">＋ Crear carpeta</button>
+      </form>
+      <small class="file-organizer-count"></small>
+    `;
+    list.before(controls);
+    controls.querySelector('.file-search').oninput = () => render();
+    controls.querySelector('.file-trash-toggle').onclick = () => {
+      viewingTrash = !viewingTrash;
+      controls.querySelector('.file-search').value = '';
+      cleanup();
+      preview.replaceChildren();
+      render();
+    };
+    controls.querySelector('.folder-up').onclick = async () => {
+      if (viewingTrash) viewingTrash = false;
+      else if (currentFolder) {
+        const folder = await cabinet('readonly', (store) => store.get(currentFolder));
+        currentFolder = folder?.parent || null;
+      }
+      controls.querySelector('.file-search').value = '';
+      render();
+    };
+    controls.querySelector('form').onsubmit = async (event) => {
+      event.preventDefault();
+      const input = controls.querySelector('form input');
+      const name = input.value.trim();
+      if (!name) return;
+      try {
+        const files = await cabinet('readonly', (store) => store.getAll());
+        if (
+          files.some(
+            (file) =>
+              !file.deleted &&
+              (file.parent || null) === currentFolder &&
+              file.name.toLowerCase() === name.toLowerCase(),
+          )
+        ) {
+          toast('Ya existe un archivo o carpeta con ese nombre.');
+          return;
+        }
+        await cabinet('readwrite', (store) =>
+          store.put({
+            id: crypto.randomUUID(),
+            name,
+            kind: 'folder',
+            parent: currentFolder,
+            blob: new Blob([], { type: 'application/x-papel-folder' }),
+          }),
+        );
+        input.value = '';
+        await render();
+        toast('Carpeta creada.');
+      } catch {
+        toast('No se pudo crear la carpeta.');
+      }
+    };
     let objectURL = null;
     const cleanup = () => {
       if (objectURL) {
@@ -72,10 +142,44 @@ setup = function (id, w) {
     );
     async function render() {
       try {
-        let files = await cabinet('readonly', (s) => s.getAll());
+        const version = ++renderVersion;
+        const allFiles = await cabinet('readonly', (s) => s.getAll());
+        if (version !== renderVersion || !w.isConnected) return;
+        if (currentFolder && !allFiles.some((file) => file.id === currentFolder && !file.deleted))
+          currentFolder = null;
+        const folder = allFiles.find((file) => file.id === currentFolder);
+        controls.querySelector('.folder-path').textContent = viewingTrash
+          ? 'Papelera de archivos'
+          : folder
+            ? 'Mis archivos / ' + folder.name
+            : 'Mis archivos';
+        controls.querySelector('.file-trash-toggle').textContent = viewingTrash
+          ? 'Volver a archivos'
+          : 'Papelera';
+        controls.querySelector('.new-folder-form').hidden = viewingTrash;
+        w.querySelector('#importfiles').disabled = viewingTrash;
+        const query = controls.querySelector('.file-search').value.trim().toLowerCase();
+        const files = allFiles
+          .filter(
+            (file) =>
+              (viewingTrash
+                ? file.deleted
+                : !file.deleted && (file.parent || null) === currentFolder) &&
+              file.name.toLowerCase().includes(query),
+          )
+          .sort(
+            (a, b) =>
+              (b.kind === 'folder') - (a.kind === 'folder') || a.name.localeCompare(b.name, 'es'),
+          );
+        controls.querySelector('.file-organizer-count').textContent =
+          files.length + ' elementos' + (viewingTrash ? ' · recuperables' : '');
         list.replaceChildren();
         if (!files.length) {
-          list.textContent = 'Tu archivo personal está vacío.';
+          list.textContent = query
+            ? 'No hay coincidencias.'
+            : viewingTrash
+              ? 'La papelera está vacía.'
+              : 'Esta carpeta está vacía.';
           return;
         }
         files.forEach((file) => {
@@ -86,26 +190,79 @@ setup = function (id, w) {
           name.textContent = file.name;
           name.title = file.name;
           const size = document.createElement('small');
-          size.textContent = (file.blob.size / 1024).toFixed(1) + ' KB';
+          size.textContent =
+            file.kind === 'folder' ? 'Carpeta' : (file.blob.size / 1024).toFixed(1) + ' KB';
+          if (file.kind === 'folder') name.textContent = '▣ ' + file.name;
           const dl = document.createElement('button');
           dl.textContent = '↓';
           dl.setAttribute('aria-label', 'Descargar ' + file.name);
           dl.onclick = () => downloadBlob(file.blob, file.name);
+          dl.hidden = file.kind === 'folder';
           const remove = document.createElement('button');
           remove.textContent = '×';
-          remove.setAttribute('aria-label', 'Eliminar ' + file.name);
+          remove.setAttribute(
+            'aria-label',
+            (viewingTrash ? 'Restaurar ' : 'Mover a papelera ') + file.name,
+          );
+          remove.textContent = viewingTrash ? '↶' : '×';
           remove.onclick = async () => {
             try {
-              await cabinet('readwrite', (s) => s.delete(file.id));
+              if (
+                !viewingTrash &&
+                file.kind === 'folder' &&
+                allFiles.some((item) => !item.deleted && item.parent === file.id)
+              ) {
+                toast('Mueve primero los archivos de esta carpeta.');
+                return;
+              }
+              const restoredParent = allFiles.some(
+                (item) => item.id === file.parent && !item.deleted,
+              )
+                ? file.parent
+                : null;
+              let restoredName = file.name;
+              let suffix = 1;
+              while (
+                viewingTrash &&
+                allFiles.some(
+                  (item) =>
+                    item.id !== file.id &&
+                    !item.deleted &&
+                    (item.parent || null) === restoredParent &&
+                    item.name.toLowerCase() === restoredName.toLowerCase(),
+                )
+              ) {
+                restoredName = file.name + ' (recuperado ' + suffix++ + ')';
+              }
+              await cabinet('readwrite', (s) =>
+                s.put({
+                  ...file,
+                  name: restoredName,
+                  deleted: !viewingTrash,
+                  parent: viewingTrash ? restoredParent : file.parent || null,
+                }),
+              );
               cleanup();
               preview.replaceChildren();
               render();
-              toast('Archivo quitado de este navegador.');
+              toast(viewingTrash ? 'Elemento restaurado.' : 'Elemento movido a la papelera.');
             } catch {
               toast('No se pudo eliminar.');
             }
           };
           name.onclick = async () => {
+            if (file.kind === 'folder') {
+              if (viewingTrash) {
+                toast('Restaura la carpeta para abrirla.');
+                return;
+              }
+              currentFolder = file.id;
+              controls.querySelector('.file-search').value = '';
+              cleanup();
+              preview.replaceChildren();
+              render();
+              return;
+            }
             cleanup();
             preview.replaceChildren();
             const title = document.createElement('strong');
@@ -143,7 +300,92 @@ setup = function (id, w) {
               preview.append(p);
             }
           };
-          row.append(name, size, dl, remove);
+          const actions = document.createElement('details');
+          actions.className = 'cabinet-actions';
+          const summary = document.createElement('summary');
+          summary.textContent = '⋯';
+          summary.setAttribute('aria-label', 'Opciones de ' + file.name);
+          const form = document.createElement('form');
+          const rename = document.createElement('input');
+          rename.value = file.name;
+          rename.required = true;
+          rename.maxLength = 120;
+          rename.setAttribute('aria-label', 'Nuevo nombre de ' + file.name);
+          const submit = document.createElement('button');
+          submit.textContent = 'Renombrar';
+          form.append(rename, submit);
+          form.onsubmit = async (event) => {
+            event.preventDefault();
+            const nextName = rename.value.trim();
+            if (!nextName) return;
+            if (
+              allFiles.some(
+                (other) =>
+                  other.id !== file.id &&
+                  !other.deleted &&
+                  (other.parent || null) === (file.parent || null) &&
+                  other.name.toLowerCase() === nextName.toLowerCase(),
+              )
+            ) {
+              toast('Ya existe un elemento con ese nombre.');
+              return;
+            }
+            try {
+              await cabinet('readwrite', (store) => store.put({ ...file, name: nextName }));
+              render();
+              toast('Nombre actualizado.');
+            } catch {
+              toast('No se pudo renombrar.');
+            }
+          };
+          actions.append(summary, form);
+          if (file.kind !== 'folder') {
+            const select = document.createElement('select');
+            select.setAttribute('aria-label', 'Mover ' + file.name + ' a carpeta');
+            const root = document.createElement('option');
+            root.value = '';
+            root.textContent = 'Mis archivos';
+            select.append(root);
+            allFiles
+              .filter((item) => item.kind === 'folder' && !item.deleted)
+              .forEach((folder) => {
+                const option = document.createElement('option');
+                option.value = folder.id;
+                option.textContent = folder.name;
+                select.append(option);
+              });
+            select.value = file.parent || '';
+            const move = document.createElement('button');
+            move.type = 'button';
+            move.textContent = 'Mover';
+            move.onclick = async () => {
+              const parent = select.value || null;
+              if (
+                allFiles.some(
+                  (other) =>
+                    other.id !== file.id &&
+                    !other.deleted &&
+                    (other.parent || null) === parent &&
+                    other.name.toLowerCase() === file.name.toLowerCase(),
+                )
+              ) {
+                toast('La carpeta destino ya tiene un archivo con ese nombre.');
+                return;
+              }
+              try {
+                await cabinet('readwrite', (store) => store.put({ ...file, parent }));
+                render();
+                toast('Archivo movido.');
+              } catch {
+                toast('No se pudo mover.');
+              }
+            };
+            const moveRow = document.createElement('div');
+            moveRow.append(select, move);
+            actions.append(moveRow);
+          }
+          actions.hidden = viewingTrash;
+          row.append(name, size, dl, actions, remove);
           list.append(row);
         });
       } catch {
@@ -160,7 +402,7 @@ setup = function (id, w) {
         }
         try {
           await cabinet('readwrite', (s) =>
-            s.put({ id: crypto.randomUUID(), name: file.name, blob: file }),
+            s.put({ id: crypto.randomUUID(), name: file.name, blob: file, parent: currentFolder }),
           );
           count++;
         } catch {
