@@ -7,7 +7,7 @@ function bounds(){return {width:innerWidth,height:innerHeight-82}}
 function placeIcon(icon,x,y){const b=bounds();x=Math.max(0,Math.min(Math.max(0,b.width-icon.offsetWidth),x));y=Math.max(0,Math.min(Math.max(0,b.height-icon.offsetHeight),y));icon.style.left=Math.round(x)+'px';icon.style.top=Math.round(y)+'px';return {x:Math.round(x),y:Math.round(y)}}
 function defaultPosition(i){const small=innerWidth<701;return {x:(small?8:22)+Math.floor(i/6)*(small?66:95),y:(small?34:47)+(i%6)*(small?72:82)}}
 function arrangeIcons(reset=false){desktopIcons.forEach((icon,i)=>{const stored=reset?null:savedLayout[icon.dataset.open];const position=stored&&Number.isFinite(stored.x)&&Number.isFinite(stored.y)?stored:defaultPosition(i);placeIcon(icon,position.x,position.y)})}
-function persistLayout(){savedLayout={};desktopIcons.forEach(icon=>savedLayout[icon.dataset.open]={x:icon.offsetLeft,y:icon.offsetTop});save(layoutKey(),JSON.stringify(savedLayout))}
+function persistLayout(){savedLayout={};desktopIcons.forEach(icon=>savedLayout[icon.dataset.open]={x:parseFloat(icon.style.left)||0,y:parseFloat(icon.style.top)||0});save(layoutKey(),JSON.stringify(savedLayout))}
 arrangeIcons();
 let draggedClick=null,selectedIcon=null;
 function selectIcon(icon){desktopIcons.forEach(x=>x.classList.toggle('icon-selected',x===icon));selectedIcon=icon}
