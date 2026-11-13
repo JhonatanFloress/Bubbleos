@@ -3,5 +3,4 @@ node_modules/
 work/
 .build-output/
 .git/
-.openai/
 package-lock.json
