@@ -94,3 +94,7 @@ Los elementos existentes sin carpeta aparecen en la raíz. Las carpetas y la pap
 ## Música local
 
 `src/js/apps/music-player.js` implementa Media Player con archivos de audio guardados en IndexedDB. Permite importar hasta 10 MB por canción, reproducir/pausar, avanzar, retroceder, buscar una posición, ajustar volumen, repetir y usar modo aleatorio. Cerrar la ventana detiene el audio; minimizarla permite seguir escuchando. Los formatos dependen del navegador.
+
+## Recordatorios
+
+`src/js/apps/reminders.js` guarda avisos con fecha y hora en `papel-reminders`. Se pueden editar, posponer diez minutos, completar y reactivar. El sitio muestra un aviso interno y destaca el acceso de la barra de tareas cuando hay recordatorios vencidos. No usa notificaciones del sistema: requiere la pestaña abierta; al regresar muestra los vencidos guardados.
