@@ -1,4 +1,121 @@
 // Extend existing apps: drawing undo/redo and notebook export/search.
-const upgradesSetup=setup;setup=function(id,w){upgradesSetup(id,w);if(id==='draw'){const canvas=w.querySelector('canvas'),ctx=canvas.getContext('2d'),toolbar=w.querySelector('.drawtools');let undo=[],redo=[];const capture=()=>ctx.getImageData(0,0,canvas.width,canvas.height);function checkpoint(){undo.push(capture());if(undo.length>15)undo.shift();redo=[];update()}function restore(stack,other){if(!stack.length)return;other.push(capture());ctx.putImageData(stack.pop(),0,0);update()}const back=document.createElement('button');back.textContent='↶';back.title='Deshacer';back.setAttribute('aria-label','Deshacer dibujo');const forward=document.createElement('button');forward.textContent='↷';forward.title='Rehacer';forward.setAttribute('aria-label','Rehacer dibujo');back.onclick=()=>restore(undo,redo);forward.onclick=()=>restore(redo,undo);const width=document.createElement('select');width.setAttribute('aria-label','Grosor del lápiz');[2,4,8,14,22].forEach(n=>{let opt=document.createElement('option');opt.value=n;opt.textContent=n+' px';opt.selected=n===4;width.append(opt)});width.onchange=()=>ctx.lineWidth=Number(width.value);const eraser=document.createElement('button');eraser.textContent='Goma';eraser.onclick=()=>{const on=ctx.globalCompositeOperation!=='destination-out';ctx.globalCompositeOperation=on?'destination-out':'source-over';eraser.classList.toggle('tool-active',on)};toolbar.append(back,forward,width,eraser);canvas.addEventListener('pointerdown',checkpoint,true);w.querySelector('#clearcanvas').addEventListener('click',checkpoint,true);function update(){back.disabled=!undo.length;forward.disabled=!redo.length}update()}
-if(id==='notes'){const area=w.querySelector('textarea'),toolbar=document.createElement('div');toolbar.className='note-tools';toolbar.innerHTML='<input placeholder="Buscar en la nota…" aria-label="Buscar en la nota"><button class="note-find">Buscar</button><button class="note-export">↓ Descargar</button><span class="note-count"></span>';area.before(toolbar);const stats=()=>toolbar.querySelector('.note-count').textContent=(area.value.trim()?area.value.trim().split(/\s+/).length:0)+' palabras';area.addEventListener('input',stats);toolbar.querySelector('.note-export').onclick=()=>downloadBlob(new Blob([area.value],{type:'text/plain;charset=utf-8'}),'mis-notas.txt');let position=0;toolbar.querySelector('.note-find').onclick=()=>{const query=toolbar.querySelector('input').value;if(!query)return;let found=area.value.toLocaleLowerCase().indexOf(query.toLocaleLowerCase(),position);if(found<0)found=area.value.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());if(found<0){toast('No encontré ese texto.');return}area.focus();area.setSelectionRange(found,found+query.length);position=found+query.length};toolbar.querySelector('input').oninput=()=>position=0;stats()}
-if(id==='todos'){const controls=document.createElement('div');controls.className='todo-filters';controls.innerHTML='<button data-filter="all" class="tool-active">Todos</button><button data-filter="pending">Pendientes</button><button data-filter="done">Completados</button>';w.querySelector('#todolist').before(controls);let filter='all';function apply(){w.querySelectorAll('.todo-row').forEach(row=>{let done=row.querySelector('input').checked;row.hidden=filter==='pending'?done:filter==='done'?!done:false})}controls.querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;controls.querySelectorAll('button').forEach(x=>x.classList.toggle('tool-active',x===b));apply()});let observer=new MutationObserver(apply);observer.observe(w.querySelector('#todolist'),{childList:true});const old=extraCleanup.get(w);extraCleanup.set(w,()=>{observer.disconnect();old?.()})}};
+const upgradesSetup = setup;
+setup = function (id, w) {
+  upgradesSetup(id, w);
+  if (id === 'draw') {
+    const canvas = w.querySelector('canvas'),
+      ctx = canvas.getContext('2d'),
+      toolbar = w.querySelector('.drawtools');
+    let undo = [],
+      redo = [];
+    const capture = () => ctx.getImageData(0, 0, canvas.width, canvas.height);
+    function checkpoint() {
+      undo.push(capture());
+      if (undo.length > 15) undo.shift();
+      redo = [];
+      update();
+    }
+    function restore(stack, other) {
+      if (!stack.length) return;
+      other.push(capture());
+      ctx.putImageData(stack.pop(), 0, 0);
+      update();
+    }
+    const back = document.createElement('button');
+    back.textContent = '↶';
+    back.title = 'Deshacer';
+    back.setAttribute('aria-label', 'Deshacer dibujo');
+    const forward = document.createElement('button');
+    forward.textContent = '↷';
+    forward.title = 'Rehacer';
+    forward.setAttribute('aria-label', 'Rehacer dibujo');
+    back.onclick = () => restore(undo, redo);
+    forward.onclick = () => restore(redo, undo);
+    const width = document.createElement('select');
+    width.setAttribute('aria-label', 'Grosor del lápiz');
+    [2, 4, 8, 14, 22].forEach((n) => {
+      let opt = document.createElement('option');
+      opt.value = n;
+      opt.textContent = n + ' px';
+      opt.selected = n === 4;
+      width.append(opt);
+    });
+    width.onchange = () => (ctx.lineWidth = Number(width.value));
+    const eraser = document.createElement('button');
+    eraser.textContent = 'Goma';
+    eraser.onclick = () => {
+      const on = ctx.globalCompositeOperation !== 'destination-out';
+      ctx.globalCompositeOperation = on ? 'destination-out' : 'source-over';
+      eraser.classList.toggle('tool-active', on);
+    };
+    toolbar.append(back, forward, width, eraser);
+    canvas.addEventListener('pointerdown', checkpoint, true);
+    w.querySelector('#clearcanvas').addEventListener('click', checkpoint, true);
+    function update() {
+      back.disabled = !undo.length;
+      forward.disabled = !redo.length;
+    }
+    update();
+  }
+  if (id === 'notes') {
+    const area = w.querySelector('textarea'),
+      toolbar = document.createElement('div');
+    toolbar.className = 'note-tools';
+    toolbar.innerHTML =
+      '<input placeholder="Buscar en la nota…" aria-label="Buscar en la nota"><button class="note-find">Buscar</button><button class="note-export">↓ Descargar</button><span class="note-count"></span>';
+    area.before(toolbar);
+    const stats = () =>
+      (toolbar.querySelector('.note-count').textContent =
+        (area.value.trim() ? area.value.trim().split(/\s+/).length : 0) + ' palabras');
+    area.addEventListener('input', stats);
+    toolbar.querySelector('.note-export').onclick = () =>
+      downloadBlob(new Blob([area.value], { type: 'text/plain;charset=utf-8' }), 'mis-notas.txt');
+    let position = 0;
+    toolbar.querySelector('.note-find').onclick = () => {
+      const query = toolbar.querySelector('input').value;
+      if (!query) return;
+      let found = area.value.toLocaleLowerCase().indexOf(query.toLocaleLowerCase(), position);
+      if (found < 0) found = area.value.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
+      if (found < 0) {
+        toast('No encontré ese texto.');
+        return;
+      }
+      area.focus();
+      area.setSelectionRange(found, found + query.length);
+      position = found + query.length;
+    };
+    toolbar.querySelector('input').oninput = () => (position = 0);
+    stats();
+  }
+  if (id === 'todos') {
+    const controls = document.createElement('div');
+    controls.className = 'todo-filters';
+    controls.innerHTML =
+      '<button data-filter="all" class="tool-active">Todos</button><button data-filter="pending">Pendientes</button><button data-filter="done">Completados</button>';
+    w.querySelector('#todolist').before(controls);
+    let filter = 'all';
+    function apply() {
+      w.querySelectorAll('.todo-row').forEach((row) => {
+        let done = row.querySelector('input').checked;
+        row.hidden = filter === 'pending' ? done : filter === 'done' ? !done : false;
+      });
+    }
+    controls.querySelectorAll('button').forEach(
+      (b) =>
+        (b.onclick = () => {
+          filter = b.dataset.filter;
+          controls
+            .querySelectorAll('button')
+            .forEach((x) => x.classList.toggle('tool-active', x === b));
+          apply();
+        }),
+    );
+    let observer = new MutationObserver(apply);
+    observer.observe(w.querySelector('#todolist'), { childList: true });
+    const old = extraCleanup.get(w);
+    extraCleanup.set(w, () => {
+      observer.disconnect();
+      old?.();
+    });
+  }
+};

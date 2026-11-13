@@ -1,9 +1,283 @@
 // Personalization and gallery use the existing browser-local file cabinet.
-apps.gallery=['Galería de fotos',660,500];icons.gallery=aeroDefs+'<rect x="4" y="7" width="40" height="34" rx="3" fill="url(#aero-white)" stroke="#6c9ab6"/><rect x="8" y="11" width="32" height="25" fill="url(#aero-blue)" stroke="#83adbd"/><circle cx="32" cy="18" r="4" fill="#fff0ad" stroke="none"/><path d="M8 35l11-15 8 10 5-6 8 11Z" fill="url(#aero-green)" stroke="#629c55"/>';
-const wallpaperLayer=document.createElement('div');wallpaperLayer.id='personal-wallpaper';wallpaperLayer.setAttribute('aria-hidden','true');$('#desktop').prepend(wallpaperLayer);let currentWallpaperURL=null;
-async function applyWallpaper(id){if(!id){wallpaperLayer.style.backgroundImage='';$('#desktop').classList.remove('has-personal-wallpaper');if(currentWallpaperURL){URL.revokeObjectURL(currentWallpaperURL);currentWallpaperURL=null}return}try{const file=await cabinet('readonly',s=>s.get(id));if(!file||!file.blob.type.startsWith('image/')||file.blob.type.includes('svg')){save('papel-wallpaper-id','');return}const url=URL.createObjectURL(file.blob),probe=new Image();probe.onload=()=>{const old=currentWallpaperURL;currentWallpaperURL=url;wallpaperLayer.style.backgroundImage='url("'+url+'")';$('#desktop').classList.add('has-personal-wallpaper');if(old)URL.revokeObjectURL(old)};probe.onerror=()=>{URL.revokeObjectURL(url);toast('No se pudo abrir esta imagen.')};probe.src=url}catch{toast('El fondo guardado no está disponible.')}}
-applyWallpaper(read('papel-wallpaper-id',''));function setGlassTone(tone){if(!['blue','sage','rose','slate'].includes(tone))tone='blue';$('#desktop').dataset.glasstone=tone;save('papel-glass-tone',tone)}setGlassTone(read('papel-glass-tone','blue'));
-const personalBody=body;body=function(id){if(id==='gallery')return '<div class="gallery-app"><div class="gallery-toolbar"><button id="galleryimport">＋ Importar fotos</button><button id="galleryrefresh" aria-label="Actualizar galería">↻</button><span id="gallerycount"></span><button id="galleryslideshow">▶ Presentación</button></div><div class="gallery-stage"><div class="gallery-empty"><span>▧</span><h2>Tus pequeños recuerdos.</h2><p>Importa imágenes para verlas aquí.<br>Se guardan solo en este navegador.</p></div><img id="galleryphoto" alt="" hidden><button id="galleryprevious" class="gallery-arrow previous" aria-label="Foto anterior">‹</button><button id="gallerynext" class="gallery-arrow next" aria-label="Foto siguiente">›</button></div><div class="gallery-controls"><span id="galleryfilename">Sin imágenes</span><button id="galleryzoom">＋ Zoom</button><button id="gallerydownload" aria-label="Descargar foto">↓</button><button id="gallerywallpaper">Usar de fondo</button></div><div id="gallerythumbs"></div><input id="gallerypicker" type="file" accept="image/*" multiple hidden></div>';return personalBody(id)};
-const personalSetup=setup;setup=function(id,w){personalSetup(id,w);if(id==='settings'){const panel=document.createElement('div');panel.className='personal-panel';panel.innerHTML='<div class="personal-heading"><span>✧</span><div><h3>Hazlo más tuyo.</h3><p>Tu imagen, tu color, tu espacio.</p></div></div><label class="personal-label">Cristal de las ventanas</label><div class="glass-tones"><button data-tone="blue" style="--tone:#a1d8f1">Océano</button><button data-tone="sage" style="--tone:#b1d2b5">Jardín</button><button data-tone="rose" style="--tone:#dfbdce">Rosa</button><button data-tone="slate" style="--tone:#aab6c5">Grafito</button></div><label class="personal-label">Tu propio fondo</label><div class="wallpaper-mini"></div><div class="personal-buttons"><button class="primary" id="personalupload">＋ Elegir imagen</button><button class="primary" id="personalreset">Restaurar paisaje</button></div><small>La imagen se guarda en este navegador. Máximo 10 MB.</small><input id="personalpicker" type="file" accept="image/*" hidden>';w.querySelector('.content').prepend(panel);const mini=panel.querySelector('.wallpaper-mini');mini.style.backgroundImage=wallpaperLayer.style.backgroundImage;function mark(){panel.querySelectorAll('[data-tone]').forEach(b=>b.classList.toggle('tone-selected',b.dataset.tone===$('#desktop').dataset.glasstone))}panel.querySelectorAll('[data-tone]').forEach(b=>b.onclick=()=>{setGlassTone(b.dataset.tone);mark()});mark();panel.querySelector('#personalupload').onclick=()=>panel.querySelector('#personalpicker').click();panel.querySelector('#personalpicker').onchange=async e=>{let file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')||file.type.includes('svg')||file.size>10*1024*1024){toast('Elige una imagen PNG, JPG o WebP de hasta 10 MB.');e.target.value='';return}try{const id=crypto.randomUUID();await cabinet('readwrite',s=>s.put({id,name:file.name,blob:file}));save('papel-wallpaper-id',id);await applyWallpaper(id);const preview=URL.createObjectURL(file);mini.style.backgroundImage='url("'+preview+'")';const old=extraCleanup.get(w);extraCleanup.set(w,()=>{URL.revokeObjectURL(preview);old?.()});toast('Tu fondo está listo. También está en la galería.')}catch{toast('No se pudo guardar la imagen.')}e.target.value=''};panel.querySelector('#personalreset').onclick=()=>{save('papel-wallpaper-id','');applyWallpaper('');mini.style.backgroundImage='';toast('Paisaje restaurado.')}}
-if(id==='gallery'){let photos=[],index=0,urls=[],timer=null,zoomed=false,disposed=false,loadGeneration=0;const image=w.querySelector('#galleryphoto'),stage=w.querySelector('.gallery-stage'),thumbs=w.querySelector('#gallerythumbs'),count=w.querySelector('#gallerycount'),filename=w.querySelector('#galleryfilename');function stop(){clearInterval(timer);timer=null;w.querySelector('#galleryslideshow').textContent='▶ Presentación'}function draw(){if(!photos.length){image.hidden=true;w.querySelector('.gallery-empty').hidden=false;filename.textContent='Sin imágenes';count.textContent='0 fotos';w.querySelectorAll('.gallery-arrow,#galleryzoom,#gallerydownload,#gallerywallpaper,#galleryslideshow').forEach(b=>b.disabled=true);return}w.querySelectorAll('.gallery-arrow,#galleryzoom,#gallerydownload,#gallerywallpaper,#galleryslideshow').forEach(b=>b.disabled=false);w.querySelector('.gallery-empty').hidden=true;image.hidden=false;image.src=urls[index];image.alt=photos[index].name;filename.textContent=photos[index].name;filename.title=photos[index].name;count.textContent=(index+1)+' / '+photos.length;zoomed=false;stage.classList.remove('gallery-zoomed');w.querySelector('#galleryzoom').textContent='＋ Zoom';thumbs.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('thumb-active',i===index));thumbs.querySelector('.thumb-active')?.scrollIntoView({block:'nearest',inline:'nearest'})}async function load(){const generation=++loadGeneration;try{const all=await cabinet('readonly',s=>s.getAll());if(disposed||generation!==loadGeneration)return;stop();urls.forEach(URL.revokeObjectURL);photos=all.filter(f=>f.blob.type.startsWith('image/')&&!f.blob.type.includes('svg'));urls=photos.map(f=>URL.createObjectURL(f.blob));index=Math.min(index,Math.max(0,photos.length-1));thumbs.replaceChildren();photos.forEach((file,i)=>{let b=document.createElement('button'),im=document.createElement('img');b.setAttribute('aria-label','Ver '+file.name);im.src=urls[i];im.alt='';b.append(im);b.onclick=()=>{stop();index=i;draw()};thumbs.append(b)});draw()}catch{toast('No se pudo abrir la galería.')}}function next(delta){if(!photos.length)return;index=(index+delta+photos.length)%photos.length;draw()}w.querySelector('#gallerynext').onclick=()=>next(1);w.querySelector('#galleryprevious').onclick=()=>next(-1);w.querySelector('#galleryrefresh').onclick=load;w.querySelector('#galleryslideshow').onclick=()=>{if(timer){stop();return}if(!photos.length)return;timer=setInterval(()=>{if(!w.hidden)next(1)},3500);w.querySelector('#galleryslideshow').textContent='Ⅱ Pausar'};w.querySelector('#galleryzoom').onclick=()=>{zoomed=!zoomed;stage.classList.toggle('gallery-zoomed',zoomed);w.querySelector('#galleryzoom').textContent=zoomed?'− Ajustar':'＋ Zoom'};w.querySelector('#gallerydownload').onclick=()=>{if(photos[index])downloadBlob(photos[index].blob,photos[index].name)};w.querySelector('#gallerywallpaper').onclick=()=>{if(!photos[index])return;save('papel-wallpaper-id',photos[index].id);applyWallpaper(photos[index].id);toast('Fondo de escritorio actualizado.')};w.querySelector('#galleryimport').onclick=()=>w.querySelector('#gallerypicker').click();w.querySelector('#gallerypicker').onchange=async e=>{let saved=0;for(const file of e.target.files){if(!file.type.startsWith('image/')||file.type.includes('svg')||file.size>10*1024*1024){toast(file.name+': formato no admitido o más de 10 MB.');continue}try{await cabinet('readwrite',s=>s.put({id:crypto.randomUUID(),name:file.name,blob:file}));saved++}catch{toast('No se pudo guardar '+file.name)}}e.target.value='';await load();if(saved)toast(saved+' fotos importadas.')};function key(e){if(w.hidden||!w.classList.contains('active')||e.target.matches('input,textarea'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();next(e.key==='ArrowLeft'?-1:1)}}document.addEventListener('keydown',key);extraCleanup.set(w,()=>{disposed=true;stop();urls.forEach(URL.revokeObjectURL);document.removeEventListener('keydown',key)});load()}};
-const galleryMenu=document.createElement('button');galleryMenu.dataset.open='gallery';galleryMenu.innerHTML='<span class="start-app-icon">'+svg('gallery')+'</span>Galería de fotos';$('#startapps').append(galleryMenu);
+apps.gallery = ['Galería de fotos', 660, 500];
+icons.gallery =
+  aeroDefs +
+  '<rect x="4" y="7" width="40" height="34" rx="3" fill="url(#aero-white)" stroke="#6c9ab6"/><rect x="8" y="11" width="32" height="25" fill="url(#aero-blue)" stroke="#83adbd"/><circle cx="32" cy="18" r="4" fill="#fff0ad" stroke="none"/><path d="M8 35l11-15 8 10 5-6 8 11Z" fill="url(#aero-green)" stroke="#629c55"/>';
+const wallpaperLayer = document.createElement('div');
+wallpaperLayer.id = 'personal-wallpaper';
+wallpaperLayer.setAttribute('aria-hidden', 'true');
+$('#desktop').prepend(wallpaperLayer);
+let currentWallpaperURL = null;
+async function applyWallpaper(id) {
+  if (!id) {
+    wallpaperLayer.style.backgroundImage = '';
+    $('#desktop').classList.remove('has-personal-wallpaper');
+    if (currentWallpaperURL) {
+      URL.revokeObjectURL(currentWallpaperURL);
+      currentWallpaperURL = null;
+    }
+    return;
+  }
+  try {
+    const file = await cabinet('readonly', (s) => s.get(id));
+    if (!file || !file.blob.type.startsWith('image/') || file.blob.type.includes('svg')) {
+      save('papel-wallpaper-id', '');
+      return;
+    }
+    const url = URL.createObjectURL(file.blob),
+      probe = new Image();
+    probe.onload = () => {
+      const old = currentWallpaperURL;
+      currentWallpaperURL = url;
+      wallpaperLayer.style.backgroundImage = 'url("' + url + '")';
+      $('#desktop').classList.add('has-personal-wallpaper');
+      if (old) URL.revokeObjectURL(old);
+    };
+    probe.onerror = () => {
+      URL.revokeObjectURL(url);
+      toast('No se pudo abrir esta imagen.');
+    };
+    probe.src = url;
+  } catch {
+    toast('El fondo guardado no está disponible.');
+  }
+}
+applyWallpaper(read('papel-wallpaper-id', ''));
+function setGlassTone(tone) {
+  if (!['blue', 'sage', 'rose', 'slate'].includes(tone)) tone = 'blue';
+  $('#desktop').dataset.glasstone = tone;
+  save('papel-glass-tone', tone);
+}
+setGlassTone(read('papel-glass-tone', 'blue'));
+const personalBody = body;
+body = function (id) {
+  if (id === 'gallery')
+    return '<div class="gallery-app"><div class="gallery-toolbar"><button id="galleryimport">＋ Importar fotos</button><button id="galleryrefresh" aria-label="Actualizar galería">↻</button><span id="gallerycount"></span><button id="galleryslideshow">▶ Presentación</button></div><div class="gallery-stage"><div class="gallery-empty"><span>▧</span><h2>Tus pequeños recuerdos.</h2><p>Importa imágenes para verlas aquí.<br>Se guardan solo en este navegador.</p></div><img id="galleryphoto" alt="" hidden><button id="galleryprevious" class="gallery-arrow previous" aria-label="Foto anterior">‹</button><button id="gallerynext" class="gallery-arrow next" aria-label="Foto siguiente">›</button></div><div class="gallery-controls"><span id="galleryfilename">Sin imágenes</span><button id="galleryzoom">＋ Zoom</button><button id="gallerydownload" aria-label="Descargar foto">↓</button><button id="gallerywallpaper">Usar de fondo</button></div><div id="gallerythumbs"></div><input id="gallerypicker" type="file" accept="image/*" multiple hidden></div>';
+  return personalBody(id);
+};
+const personalSetup = setup;
+setup = function (id, w) {
+  personalSetup(id, w);
+  if (id === 'settings') {
+    const panel = document.createElement('div');
+    panel.className = 'personal-panel';
+    panel.innerHTML =
+      '<div class="personal-heading"><span>✧</span><div><h3>Hazlo más tuyo.</h3><p>Tu imagen, tu color, tu espacio.</p></div></div><label class="personal-label">Cristal de las ventanas</label><div class="glass-tones"><button data-tone="blue" style="--tone:#a1d8f1">Océano</button><button data-tone="sage" style="--tone:#b1d2b5">Jardín</button><button data-tone="rose" style="--tone:#dfbdce">Rosa</button><button data-tone="slate" style="--tone:#aab6c5">Grafito</button></div><label class="personal-label">Tu propio fondo</label><div class="wallpaper-mini"></div><div class="personal-buttons"><button class="primary" id="personalupload">＋ Elegir imagen</button><button class="primary" id="personalreset">Restaurar paisaje</button></div><small>La imagen se guarda en este navegador. Máximo 10 MB.</small><input id="personalpicker" type="file" accept="image/*" hidden>';
+    w.querySelector('.content').prepend(panel);
+    const mini = panel.querySelector('.wallpaper-mini');
+    mini.style.backgroundImage = wallpaperLayer.style.backgroundImage;
+    function mark() {
+      panel
+        .querySelectorAll('[data-tone]')
+        .forEach((b) =>
+          b.classList.toggle('tone-selected', b.dataset.tone === $('#desktop').dataset.glasstone),
+        );
+    }
+    panel.querySelectorAll('[data-tone]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          setGlassTone(b.dataset.tone);
+          mark();
+        }),
+    );
+    mark();
+    panel.querySelector('#personalupload').onclick = () =>
+      panel.querySelector('#personalpicker').click();
+    panel.querySelector('#personalpicker').onchange = async (e) => {
+      let file = e.target.files[0];
+      if (!file) return;
+      if (
+        !file.type.startsWith('image/') ||
+        file.type.includes('svg') ||
+        file.size > 10 * 1024 * 1024
+      ) {
+        toast('Elige una imagen PNG, JPG o WebP de hasta 10 MB.');
+        e.target.value = '';
+        return;
+      }
+      try {
+        const id = crypto.randomUUID();
+        await cabinet('readwrite', (s) => s.put({ id, name: file.name, blob: file }));
+        save('papel-wallpaper-id', id);
+        await applyWallpaper(id);
+        const preview = URL.createObjectURL(file);
+        mini.style.backgroundImage = 'url("' + preview + '")';
+        const old = extraCleanup.get(w);
+        extraCleanup.set(w, () => {
+          URL.revokeObjectURL(preview);
+          old?.();
+        });
+        toast('Tu fondo está listo. También está en la galería.');
+      } catch {
+        toast('No se pudo guardar la imagen.');
+      }
+      e.target.value = '';
+    };
+    panel.querySelector('#personalreset').onclick = () => {
+      save('papel-wallpaper-id', '');
+      applyWallpaper('');
+      mini.style.backgroundImage = '';
+      toast('Paisaje restaurado.');
+    };
+  }
+  if (id === 'gallery') {
+    let photos = [],
+      index = 0,
+      urls = [],
+      timer = null,
+      zoomed = false,
+      disposed = false,
+      loadGeneration = 0;
+    const image = w.querySelector('#galleryphoto'),
+      stage = w.querySelector('.gallery-stage'),
+      thumbs = w.querySelector('#gallerythumbs'),
+      count = w.querySelector('#gallerycount'),
+      filename = w.querySelector('#galleryfilename');
+    function stop() {
+      clearInterval(timer);
+      timer = null;
+      w.querySelector('#galleryslideshow').textContent = '▶ Presentación';
+    }
+    function draw() {
+      if (!photos.length) {
+        image.hidden = true;
+        w.querySelector('.gallery-empty').hidden = false;
+        filename.textContent = 'Sin imágenes';
+        count.textContent = '0 fotos';
+        w.querySelectorAll(
+          '.gallery-arrow,#galleryzoom,#gallerydownload,#gallerywallpaper,#galleryslideshow',
+        ).forEach((b) => (b.disabled = true));
+        return;
+      }
+      w.querySelectorAll(
+        '.gallery-arrow,#galleryzoom,#gallerydownload,#gallerywallpaper,#galleryslideshow',
+      ).forEach((b) => (b.disabled = false));
+      w.querySelector('.gallery-empty').hidden = true;
+      image.hidden = false;
+      image.src = urls[index];
+      image.alt = photos[index].name;
+      filename.textContent = photos[index].name;
+      filename.title = photos[index].name;
+      count.textContent = index + 1 + ' / ' + photos.length;
+      zoomed = false;
+      stage.classList.remove('gallery-zoomed');
+      w.querySelector('#galleryzoom').textContent = '＋ Zoom';
+      thumbs
+        .querySelectorAll('button')
+        .forEach((b, i) => b.classList.toggle('thumb-active', i === index));
+      thumbs
+        .querySelector('.thumb-active')
+        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
+    async function load() {
+      const generation = ++loadGeneration;
+      try {
+        const all = await cabinet('readonly', (s) => s.getAll());
+        if (disposed || generation !== loadGeneration) return;
+        stop();
+        urls.forEach(URL.revokeObjectURL);
+        photos = all.filter(
+          (f) => f.blob.type.startsWith('image/') && !f.blob.type.includes('svg'),
+        );
+        urls = photos.map((f) => URL.createObjectURL(f.blob));
+        index = Math.min(index, Math.max(0, photos.length - 1));
+        thumbs.replaceChildren();
+        photos.forEach((file, i) => {
+          let b = document.createElement('button'),
+            im = document.createElement('img');
+          b.setAttribute('aria-label', 'Ver ' + file.name);
+          im.src = urls[i];
+          im.alt = '';
+          b.append(im);
+          b.onclick = () => {
+            stop();
+            index = i;
+            draw();
+          };
+          thumbs.append(b);
+        });
+        draw();
+      } catch {
+        toast('No se pudo abrir la galería.');
+      }
+    }
+    function next(delta) {
+      if (!photos.length) return;
+      index = (index + delta + photos.length) % photos.length;
+      draw();
+    }
+    w.querySelector('#gallerynext').onclick = () => next(1);
+    w.querySelector('#galleryprevious').onclick = () => next(-1);
+    w.querySelector('#galleryrefresh').onclick = load;
+    w.querySelector('#galleryslideshow').onclick = () => {
+      if (timer) {
+        stop();
+        return;
+      }
+      if (!photos.length) return;
+      timer = setInterval(() => {
+        if (!w.hidden) next(1);
+      }, 3500);
+      w.querySelector('#galleryslideshow').textContent = 'Ⅱ Pausar';
+    };
+    w.querySelector('#galleryzoom').onclick = () => {
+      zoomed = !zoomed;
+      stage.classList.toggle('gallery-zoomed', zoomed);
+      w.querySelector('#galleryzoom').textContent = zoomed ? '− Ajustar' : '＋ Zoom';
+    };
+    w.querySelector('#gallerydownload').onclick = () => {
+      if (photos[index]) downloadBlob(photos[index].blob, photos[index].name);
+    };
+    w.querySelector('#gallerywallpaper').onclick = () => {
+      if (!photos[index]) return;
+      save('papel-wallpaper-id', photos[index].id);
+      applyWallpaper(photos[index].id);
+      toast('Fondo de escritorio actualizado.');
+    };
+    w.querySelector('#galleryimport').onclick = () => w.querySelector('#gallerypicker').click();
+    w.querySelector('#gallerypicker').onchange = async (e) => {
+      let saved = 0;
+      for (const file of e.target.files) {
+        if (
+          !file.type.startsWith('image/') ||
+          file.type.includes('svg') ||
+          file.size > 10 * 1024 * 1024
+        ) {
+          toast(file.name + ': formato no admitido o más de 10 MB.');
+          continue;
+        }
+        try {
+          await cabinet('readwrite', (s) =>
+            s.put({ id: crypto.randomUUID(), name: file.name, blob: file }),
+          );
+          saved++;
+        } catch {
+          toast('No se pudo guardar ' + file.name);
+        }
+      }
+      e.target.value = '';
+      await load();
+      if (saved) toast(saved + ' fotos importadas.');
+    };
+    function key(e) {
+      if (w.hidden || !w.classList.contains('active') || e.target.matches('input,textarea')) return;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        next(e.key === 'ArrowLeft' ? -1 : 1);
+      }
+    }
+    document.addEventListener('keydown', key);
+    extraCleanup.set(w, () => {
+      disposed = true;
+      stop();
+      urls.forEach(URL.revokeObjectURL);
+      document.removeEventListener('keydown', key);
+    });
+    load();
+  }
+};
+const galleryMenu = document.createElement('button');
+galleryMenu.dataset.open = 'gallery';
+galleryMenu.innerHTML =
+  '<span class="start-app-icon">' + svg('gallery') + '</span>Galería de fotos';
+$('#startapps').append(galleryMenu);

@@ -1,2 +1,373 @@
 /* PAPEL OS 2 */
-#icons{display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,76px);gap:14px 11px}#startapps{max-height:340px;overflow:auto}#appsearch{margin:9px;width:calc(100% - 18px);padding:9px;border:1px solid #7f9db9;background:white;border-radius:3px}#startapps button[hidden]{display:none}.window{transition:box-shadow .2s}.resize-handle{position:absolute;bottom:2px;right:2px;width:14px;height:14px;cursor:nwse-resize;background:repeating-linear-gradient(135deg,transparent 0 3px,#9ba4aa 3px 4px);clip-path:polygon(100% 0,100% 100%,0 100%);touch-action:none}.extra-pad{padding:18px;background:linear-gradient(#fff,#f0f4fb);min-height:100%;font-size:11px}.extra-pad h2{font-size:20px;color:#265892;font-weight:normal;margin:4px 0 18px}.extra-pad small{display:block;font-size:9px;color:#6f7e8d;margin-top:8px}.calendar-head{display:flex;align-items:center;justify-content:space-between}.calendar-head h2{font-size:16px;text-transform:capitalize;margin:4px 0 15px}.calendar-head button{padding:7px;background:#e2ecfb;border:1px solid #9eb6d5}#calendargrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}#calendargrid b{padding:6px;color:#6b7e94;font-size:10px}#calendargrid button{padding:7px;border:1px solid #ccd7e4;background:#fff}#calendargrid .today{color:#d85035;font-weight:bold;border-color:#d85035}#calendargrid .selected{background:#2466da;color:white}#daynote{width:100%;height:56px;padding:8px;border:1px solid #99afc8;resize:vertical;background:#fffef3}#selectedday{font-size:10px;color:#45628a}#todoform{display:flex;gap:7px;margin-bottom:15px}#todoinput{min-width:0;flex:1;padding:8px;border:1px solid #8fa5bd}.todo-row{display:flex;align-items:center;gap:8px;padding:12px 4px;border-bottom:1px solid #dbe3eb}.todo-row span{flex:1;overflow-wrap:anywhere}.todo-row button{color:#b74635;font-size:18px}.complete{text-decoration:line-through;color:#859281}#todocount{font-size:10px;color:#758196}.player{padding:18px;text-align:center;background:linear-gradient(140deg,#eaf1fc,#b0c8e6);min-height:100%;color:#243e61}.album{margin:0 auto 8px;background:radial-gradient(circle at 70% 20%,#c5eeff,#4788cc 55%,#234781);border:4px solid #e8f3ff;outline:1px solid #7d9dc1;width:110px;height:100px;box-shadow:3px 4px 10px #2346;display:flex;flex-direction:column;justify-content:center;color:white}.album span{font-size:43px}.album small{font-size:7px;letter-spacing:1px}.player h2{font-size:17px;margin:9px}.player p{font-size:9px;color:#45688e}.player-controls{display:flex;justify-content:center;gap:9px;margin:15px 0}.player-controls button{border:1px solid #6b8bb0;border-radius:4px;padding:8px;background:linear-gradient(#fff,#d0dff3)}.player label{display:flex;align-items:center;justify-content:center;gap:10px;font-size:10px}.visualizer{height:27px;display:flex;align-items:end;justify-content:center;gap:3px}.visualizer i{width:7px;height:5px;background:linear-gradient(#a3ee99,#4382ae);border:1px solid #45729c}.playing .visualizer i{animation:equalize .6s ease-in-out infinite alternate;animation-delay:var(--delay)}.gamehead{display:flex;justify-content:space-between;align-items:center}.gamehead h2{font-size:18px;margin:0}.gamehead .primary{padding:6px 12px}#gamescore{font-size:10px;color:#657e9e}#cards{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:18px}.card{height:65px;border:2px solid white;outline:1px solid #7396c2;background:repeating-linear-gradient(45deg,#477fd2 0 4px,#528ddb 4px 8px);border-radius:4px;color:white;font-size:27px;box-shadow:2px 3px 0 #819dbe;transition:transform .25s,background .25s}.card[data-open]{background:#fffef2;color:#3568a5;transform:rotateY(0deg);animation:card-flip .3s}.card.matched{background:#d9efca;color:#4d7c31;box-shadow:0 0 8px #92c578}.wall-choices{display:flex;gap:5px}.wall-choices button{border:1px solid #7794b8;border-radius:4px;background:#fff;padding:9px;font-size:10px}.extra-pad>p{line-height:1.7}.file-grid{height:auto;min-height:100%;grid-template-columns:repeat(3,1fr)}#desktop[data-wall="night"]{background:radial-gradient(ellipse at 80% 20%,#b4d8e4 0 3%,transparent 3.5%),radial-gradient(circle at 25% 30%,#fff 0 1px,transparent 2px),linear-gradient(#091435,#304982 70%,#435987)}#desktop[data-wall="night"]:before{background:linear-gradient(#304e4c,#142c2e)}#desktop[data-wall="night"]:after{background:linear-gradient(#203d42,#102229)}#desktop[data-wall="sunset"]{background:radial-gradient(circle at 68% 60%,#fff2b0 0 5%,transparent 8%),linear-gradient(#775aaf,#ef9f9d 48%,#ffdc9c 77%,#b49c54)}#desktop[data-wall="sunset"]:before{background:linear-gradient(#b5a269,#766b42)}#desktop[data-wall="sunset"]:after{background:linear-gradient(#9d8963,#5e6650)}#desktop-context{position:fixed;width:225px;background:#ece9d8;border:1px solid #7d7d72;box-shadow:3px 3px 4px #0005;z-index:2100;padding:3px}#desktop-context button{display:block;text-align:left;width:100%;padding:9px;font-size:11px}#desktop-context button:hover{background:#316ac5;color:white}.confetti{position:fixed;top:-15px;width:9px;height:14px;z-index:9998;pointer-events:none;animation:confetti-fall 1.8s ease-in forwards}@keyframes equalize{to{height:27px}}@keyframes card-flip{from{transform:rotateY(90deg)}to{transform:rotateY(0)}}@keyframes confetti-fall{to{transform:translateY(100vh) rotate(600deg);opacity:0}}@media(max-width:700px){#icons{grid-template-rows:repeat(6,65px);gap:8px 4px}.desktop-icon{width:62px;font-size:8px}.desktop-icon svg{width:30px;height:30px}#startapps{max-height:260px}.card{height:56px}.extra-pad{padding:13px}.wall-choices{flex-wrap:wrap}}
+#icons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(6, 76px);
+  gap: 14px 11px;
+}
+#startapps {
+  max-height: 340px;
+  overflow: auto;
+}
+#appsearch {
+  margin: 9px;
+  width: calc(100% - 18px);
+  padding: 9px;
+  border: 1px solid #7f9db9;
+  background: white;
+  border-radius: 3px;
+}
+#startapps button[hidden] {
+  display: none;
+}
+.window {
+  transition: box-shadow 0.2s;
+}
+.resize-handle {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background: repeating-linear-gradient(135deg, transparent 0 3px, #9ba4aa 3px 4px);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  touch-action: none;
+}
+.extra-pad {
+  padding: 18px;
+  background: linear-gradient(#fff, #f0f4fb);
+  min-height: 100%;
+  font-size: 11px;
+}
+.extra-pad h2 {
+  font-size: 20px;
+  color: #265892;
+  font-weight: normal;
+  margin: 4px 0 18px;
+}
+.extra-pad small {
+  display: block;
+  font-size: 9px;
+  color: #6f7e8d;
+  margin-top: 8px;
+}
+.calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.calendar-head h2 {
+  font-size: 16px;
+  text-transform: capitalize;
+  margin: 4px 0 15px;
+}
+.calendar-head button {
+  padding: 7px;
+  background: #e2ecfb;
+  border: 1px solid #9eb6d5;
+}
+#calendargrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+#calendargrid b {
+  padding: 6px;
+  color: #6b7e94;
+  font-size: 10px;
+}
+#calendargrid button {
+  padding: 7px;
+  border: 1px solid #ccd7e4;
+  background: #fff;
+}
+#calendargrid .today {
+  color: #d85035;
+  font-weight: bold;
+  border-color: #d85035;
+}
+#calendargrid .selected {
+  background: #2466da;
+  color: white;
+}
+#daynote {
+  width: 100%;
+  height: 56px;
+  padding: 8px;
+  border: 1px solid #99afc8;
+  resize: vertical;
+  background: #fffef3;
+}
+#selectedday {
+  font-size: 10px;
+  color: #45628a;
+}
+#todoform {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 15px;
+}
+#todoinput {
+  min-width: 0;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #8fa5bd;
+}
+.todo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 4px;
+  border-bottom: 1px solid #dbe3eb;
+}
+.todo-row span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.todo-row button {
+  color: #b74635;
+  font-size: 18px;
+}
+.complete {
+  text-decoration: line-through;
+  color: #859281;
+}
+#todocount {
+  font-size: 10px;
+  color: #758196;
+}
+.player {
+  padding: 18px;
+  text-align: center;
+  background: linear-gradient(140deg, #eaf1fc, #b0c8e6);
+  min-height: 100%;
+  color: #243e61;
+}
+.album {
+  margin: 0 auto 8px;
+  background: radial-gradient(circle at 70% 20%, #c5eeff, #4788cc 55%, #234781);
+  border: 4px solid #e8f3ff;
+  outline: 1px solid #7d9dc1;
+  width: 110px;
+  height: 100px;
+  box-shadow: 3px 4px 10px #2346;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+.album span {
+  font-size: 43px;
+}
+.album small {
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+.player h2 {
+  font-size: 17px;
+  margin: 9px;
+}
+.player p {
+  font-size: 9px;
+  color: #45688e;
+}
+.player-controls {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin: 15px 0;
+}
+.player-controls button {
+  border: 1px solid #6b8bb0;
+  border-radius: 4px;
+  padding: 8px;
+  background: linear-gradient(#fff, #d0dff3);
+}
+.player label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 10px;
+}
+.visualizer {
+  height: 27px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 3px;
+}
+.visualizer i {
+  width: 7px;
+  height: 5px;
+  background: linear-gradient(#a3ee99, #4382ae);
+  border: 1px solid #45729c;
+}
+.playing .visualizer i {
+  animation: equalize 0.6s ease-in-out infinite alternate;
+  animation-delay: var(--delay);
+}
+.gamehead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.gamehead h2 {
+  font-size: 18px;
+  margin: 0;
+}
+.gamehead .primary {
+  padding: 6px 12px;
+}
+#gamescore {
+  font-size: 10px;
+  color: #657e9e;
+}
+#cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-top: 18px;
+}
+.card {
+  height: 65px;
+  border: 2px solid white;
+  outline: 1px solid #7396c2;
+  background: repeating-linear-gradient(45deg, #477fd2 0 4px, #528ddb 4px 8px);
+  border-radius: 4px;
+  color: white;
+  font-size: 27px;
+  box-shadow: 2px 3px 0 #819dbe;
+  transition:
+    transform 0.25s,
+    background 0.25s;
+}
+.card[data-open] {
+  background: #fffef2;
+  color: #3568a5;
+  transform: rotateY(0deg);
+  animation: card-flip 0.3s;
+}
+.card.matched {
+  background: #d9efca;
+  color: #4d7c31;
+  box-shadow: 0 0 8px #92c578;
+}
+.wall-choices {
+  display: flex;
+  gap: 5px;
+}
+.wall-choices button {
+  border: 1px solid #7794b8;
+  border-radius: 4px;
+  background: #fff;
+  padding: 9px;
+  font-size: 10px;
+}
+.extra-pad > p {
+  line-height: 1.7;
+}
+.file-grid {
+  height: auto;
+  min-height: 100%;
+  grid-template-columns: repeat(3, 1fr);
+}
+#desktop[data-wall='night'] {
+  background:
+    radial-gradient(ellipse at 80% 20%, #b4d8e4 0 3%, transparent 3.5%),
+    radial-gradient(circle at 25% 30%, #fff 0 1px, transparent 2px),
+    linear-gradient(#091435, #304982 70%, #435987);
+}
+#desktop[data-wall='night']:before {
+  background: linear-gradient(#304e4c, #142c2e);
+}
+#desktop[data-wall='night']:after {
+  background: linear-gradient(#203d42, #102229);
+}
+#desktop[data-wall='sunset'] {
+  background:
+    radial-gradient(circle at 68% 60%, #fff2b0 0 5%, transparent 8%),
+    linear-gradient(#775aaf, #ef9f9d 48%, #ffdc9c 77%, #b49c54);
+}
+#desktop[data-wall='sunset']:before {
+  background: linear-gradient(#b5a269, #766b42);
+}
+#desktop[data-wall='sunset']:after {
+  background: linear-gradient(#9d8963, #5e6650);
+}
+#desktop-context {
+  position: fixed;
+  width: 225px;
+  background: #ece9d8;
+  border: 1px solid #7d7d72;
+  box-shadow: 3px 3px 4px #0005;
+  z-index: 2100;
+  padding: 3px;
+}
+#desktop-context button {
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 9px;
+  font-size: 11px;
+}
+#desktop-context button:hover {
+  background: #316ac5;
+  color: white;
+}
+.confetti {
+  position: fixed;
+  top: -15px;
+  width: 9px;
+  height: 14px;
+  z-index: 9998;
+  pointer-events: none;
+  animation: confetti-fall 1.8s ease-in forwards;
+}
+@keyframes equalize {
+  to {
+    height: 27px;
+  }
+}
+@keyframes card-flip {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0);
+  }
+}
+@keyframes confetti-fall {
+  to {
+    transform: translateY(100vh) rotate(600deg);
+    opacity: 0;
+  }
+}
+@media (max-width: 700px) {
+  #icons {
+    grid-template-rows: repeat(6, 65px);
+    gap: 8px 4px;
+  }
+  .desktop-icon {
+    width: 62px;
+    font-size: 8px;
+  }
+  .desktop-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  #startapps {
+    max-height: 260px;
+  }
+  .card {
+    height: 56px;
+  }
+  .extra-pad {
+    padding: 13px;
+  }
+  .wall-choices {
+    flex-wrap: wrap;
+  }
+}

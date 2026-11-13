@@ -1,6 +1,6 @@
 # PAPEL OS
 
-Escritorio web inspirado en Windows Aero. HTML, CSS y JavaScript, sin dependencias externas de desarrollo.
+Escritorio web inspirado en Windows Aero. HTML, CSS y JavaScript, con Prettier como única herramienta de desarrollo externa.
 
 ## Empezar
 
@@ -10,7 +10,7 @@ Necesitas Node.js 18 o posterior. Abre **esta carpeta `retro-os`** en VS Code y 
 npm run dev
 ```
 
-Abre http://localhost:4173. No hace falta `npm install`. Después de editar, recarga el navegador.
+Abre http://localhost:4173. Para instalar Prettier: `npm install`. El servidor y el build funcionan sin dependencias. Después de editar, recarga el navegador.
 
 ```sh
 npm run check    # Comprueba rutas y sintaxis de todos los scripts
@@ -45,20 +45,20 @@ retro-os/
 
 ## Dónde cambiar cada cosa
 
-| Quieres editar | Archivo o carpeta |
-| --- | --- |
-| HTML y orden de carga | `src/index.html` |
-| Ventanas y registro base de apps | `src/js/core/runtime.js` |
-| Terminal sencilla activa | `src/js/apps/terminal.js` |
-| Notas, dibujo y filtros de pendientes | `src/js/apps/editor-tools.js` |
-| Archivos locales y reloj | `src/js/apps/files-and-clock.js` |
-| Documentos, presupuesto y Snake | `src/js/apps/documents-budget-snake.js` |
-| Arrastre y acomodo de iconos | `src/js/desktop/icon-layout.js` y `icon-grid.js` |
-| Colores, fondo y galería | `src/js/desktop/personalization.js` |
-| Bandeja de sistema | `src/js/desktop/system-tray.js` |
-| Ajuste y vista de ventanas | `src/js/desktop/window-manager.js` |
-| Menú Inicio | `src/js/ui/start-menu.js` y `src/styles/shell/start-menu.css` |
-| Explorador | `src/js/ui/explorer.js` y `src/styles/apps/explorer.css` |
+| Quieres editar                        | Archivo o carpeta                                             |
+| ------------------------------------- | ------------------------------------------------------------- |
+| HTML y orden de carga                 | `src/index.html`                                              |
+| Ventanas y registro base de apps      | `src/js/core/runtime.js`                                      |
+| Terminal sencilla activa              | `src/js/apps/terminal.js`                                     |
+| Notas, dibujo y filtros de pendientes | `src/js/apps/editor-tools.js`                                 |
+| Archivos locales y reloj              | `src/js/apps/files-and-clock.js`                              |
+| Documentos, presupuesto y Snake       | `src/js/apps/documents-budget-snake.js`                       |
+| Arrastre y acomodo de iconos          | `src/js/desktop/icon-layout.js` y `icon-grid.js`              |
+| Colores, fondo y galería              | `src/js/desktop/personalization.js`                           |
+| Bandeja de sistema                    | `src/js/desktop/system-tray.js`                               |
+| Ajuste y vista de ventanas            | `src/js/desktop/window-manager.js`                            |
+| Menú Inicio                           | `src/js/ui/start-menu.js` y `src/styles/shell/start-menu.css` |
+| Explorador                            | `src/js/ui/explorer.js` y `src/styles/apps/explorer.css`      |
 
 ## Cómo se carga la aplicación
 
@@ -71,3 +71,12 @@ Los estilos también mantienen su orden original para preservar la cascada. Las 
 Las preferencias y documentos se guardan en el navegador; los archivos importados usan IndexedDB. No cambies las claves `papel-*` para conservar los datos existentes. El respaldo dentro de la app no incluye imágenes ni dibujos.
 
 `npm run build` reemplaza **únicamente `dist`** con una copia de `src`. Edita siempre `src`; `dist` está oculto en VS Code para evitar confusiones. El hosting sigue sirviendo `dist` según `.openai/hosting.json`.
+
+## Formato del código
+
+```sh
+npm run format        # Formatea src, scripts, documentación y configuración
+npm run format:check  # Comprueba el formato sin cambiar archivos
+```
+
+Prettier usa dos espacios y líneas de hasta 100 caracteres cuando la sintaxis lo permite. `dist` queda excluido: se regenera con `npm run build`. VS Code recomienda la extensión Prettier y aplica el formato al guardar si está instalada.

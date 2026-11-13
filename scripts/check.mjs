@@ -8,7 +8,8 @@ export async function checkSource() {
   const sourceRoot = resolve(projectRoot, 'src');
   const html = await readFile(resolve(sourceRoot, 'index.html'), 'utf8');
   const references = [...html.matchAll(/(?:src|href)="([^"]+)"/g)]
-    .map(match => match[1]).filter(path => !/^(?:https?:|data:|#)/.test(path));
+    .map((match) => match[1])
+    .filter((path) => !/^(?:https?:|data:|#)/.test(path));
   const scripts = [];
   for (const reference of references) {
     const path = resolve(sourceRoot, reference);

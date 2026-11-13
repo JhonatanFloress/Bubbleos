@@ -9,7 +9,10 @@ const temporary = resolve(projectRoot, '.build-output');
 await rm(temporary, { recursive: true, force: true });
 await mkdir(temporary, { recursive: true });
 await cp(source, temporary, { recursive: true });
-await writeFile(resolve(temporary, 'GENERATED.txt'), 'Generado desde src con npm run build. No editar dist directamente.\n');
+await writeFile(
+  resolve(temporary, 'GENERATED.txt'),
+  'Generado desde src con npm run build. No editar dist directamente.\n',
+);
 await rm(destination, { recursive: true, force: true });
 await cp(temporary, destination, { recursive: true });
 await rm(temporary, { recursive: true, force: true });

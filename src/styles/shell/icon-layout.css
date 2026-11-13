@@ -1,3 +1,393 @@
 /* Free desktop layout */
-#icons.free-icons{position:absolute;left:0;right:0;top:35px;bottom:47px;display:block;z-index:3;pointer-events:none}#icons.free-icons .desktop-icon{position:absolute;grid-column:auto;grid-row:auto;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;transition:background .2s,border-color .2s,box-shadow .2s}#icons.free-icons .desktop-icon svg,#icons.free-icons .desktop-icon span{pointer-events:none}#icons.free-icons .desktop-icon.icon-selected{background:linear-gradient(#dbf5ff44,#b0dff530);border:1px solid #d4f7ffb3;box-shadow:inset 0 0 0 1px #f0ffff22,0 3px 12px #15486b22}#icons.free-icons .desktop-icon.icon-dragging{cursor:grabbing;background:linear-gradient(#e4faff88,#b9e8ff55);border-color:#edffff;box-shadow:0 14px 24px #11365366,inset 0 0 0 1px #fff7;z-index:100;transform:scale(1.08) rotate(-3deg);transition:background .15s,box-shadow .15s}#icons.free-icons .icon-dragging svg{filter:drop-shadow(0 0 9px #d4ffff);transform:translateY(-3px)}#icons.free-icons.drag-active{z-index:2500}.dragging-desktop-icon,.dragging-desktop-icon *{cursor:grabbing!important}.desktop-icon:focus-visible{outline:1px dashed #f4ffff;outline-offset:2px}.layout-settings{padding:20px;background:linear-gradient(#f7fcff,#e5f1fa);border-top:1px solid #c2d9e6}.layout-settings h3{font-size:14px;color:#366987;font-weight:normal;margin:0 0 12px}.layout-settings p{font-size:11px;color:#718b9c;line-height:1.8}.layout-settings small{display:block;font-size:9px;line-height:1.8;color:#7c96a5;margin-top:14px}.desktop-widget{box-shadow:inset 0 1px 0 #ffffff88,inset 0 -1px 0 #d8ffff22,0 18px 50px #1045632b}.desktop-widget:before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(125deg,#fff3,transparent 35%,transparent 65%,#e9ffff0d);pointer-events:none}.desktop-hint{font-size:20px;max-width:410px}.desktop-hint small{letter-spacing:1.7px}.window.active .titlebar{box-shadow:inset 0 1px #f1ffff66}.desktop-icon.icon-selected span{background:#205c8e66;border-radius:3px;padding:1px 4px}.layout-settings .primary{font-size:10px}@media(max-width:700px){#icons.free-icons{top:33px;bottom:45px}.desktop-hint{font-size:13px;max-width:260px;bottom:72px}.desktop-hint small{font-size:5px;letter-spacing:.8px}.layout-settings{padding:15px}}
-.manager-actions{display:flex;gap:8px;margin:16px 0}.manager-actions .primary{font-size:10px;padding:8px 12px}#runningapps{max-height:230px;overflow:auto}.running-row{display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid #d1e0eb;font-size:10px}.running-row>span:first-child{display:flex}.running-row svg{width:24px;height:24px;fill:none;stroke:none}.running-row>span:nth-child(2){flex:1}.running-row small{font-size:8px;color:#8299aa}.running-row button{padding:5px;border:1px solid #b0c8d9;background:#f1f9fe;border-radius:3px;font-size:9px}.running-row button:disabled{opacity:.4;cursor:default}.focus-app{text-align:center;background:radial-gradient(ellipse at 50% 0,#d4f2fe,#f5faff 65%)}.focus-kicker{display:block;letter-spacing:2px;font-size:7px;color:#8aabba;margin:6px}.focus-app h2{font:normal 27px Georgia,serif;margin:12px 0 19px;color:#477b91}.focus-app .utility-tabs{justify-content:center;background:none;border:0;padding:0}.focus-app .utility-tabs button{border-radius:20px;font-size:9px;padding:7px 17px}.focus-app .utility-tabs .chosen{border:1px solid #8bb9cf;background:#cbe9f5;padding-top:7px}.focus-app output{display:block;font:56px/1.2 'DM Sans',Tahoma,sans-serif;letter-spacing:-3px;color:#417e99;margin:20px 0 8px}#focusstatus{font-size:10px;color:#829eaf;margin-bottom:18px}.focus-config{display:flex;justify-content:center;gap:15px;margin-top:21px}.focus-config label{display:flex;align-items:center;gap:6px;font-size:9px;color:#809bad}.focus-config input{width:45px;padding:5px;border:1px solid #aac8d9;background:#fff;border-radius:3px;font-size:10px}#focuscount{font-size:9px;color:#6f9cb0}.focus-app small{font-size:8px;line-height:1.7}#quickcommand{height:31px;border:1px solid #c4e9ff77;border-radius:4px;color:white;background:linear-gradient(#c2e5f344,#80b2d133);font-size:9px;padding:5px 9px;white-space:nowrap}#command-palette{position:fixed;inset:0;z-index:5000;display:flex;align-items:flex-start;justify-content:center;padding:15vh 16px 20px;background:#12385455;backdrop-filter:blur(7px)}#command-palette[hidden]{display:none}.command-panel{width:480px;max-width:100%;border:1px solid #daf5ff99;border-radius:12px;background:linear-gradient(140deg,#f4fcfff5,#dceef9ed);box-shadow:0 30px 100px #082b5480,inset 0 1px #fff;overflow:hidden;animation:window-in .25s ease}.command-search{display:flex;align-items:center;gap:12px;padding:17px 19px;border-bottom:1px solid #b9d6e6;color:#6096af;font-size:24px}.command-search input{flex:1;min-width:0;border:0;background:none;outline:none;color:#315f7d;font-size:14px}.command-search button{font-size:9px;color:#759cb2;border:1px solid #bed5e2;padding:4px 6px;border-radius:3px}#commandresults{max-height:300px;overflow:auto;padding:8px}#commandresults>button{display:flex;align-items:center;gap:12px;width:100%;padding:10px;border:1px solid transparent;border-radius:5px;text-align:left;color:#456f88;font-size:11px}#commandresults svg{width:27px;height:27px;fill:none;stroke:none}#commandresults .command-selected{background:linear-gradient(#fff,#daeffb);border-color:#a9d3e8;box-shadow:0 2px 5px #4a91b31a}#commandresults p{font-size:11px;padding:20px;color:#809daf}.command-footer{display:flex;justify-content:space-between;padding:11px 17px;border-top:1px solid #c1dcea;color:#88a4b7;font-size:8px;letter-spacing:.2px}@media(max-width:700px){#quickcommand{font-size:8px;padding:4px}#quicksticky{display:none}.running-row{gap:5px}.running-row small{display:none}.focus-app output{font-size:49px}.command-footer{font-size:6px}.command-search input{font-size:12px}.manager-actions .primary{font-size:9px}}
+#icons.free-icons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 35px;
+  bottom: 47px;
+  display: block;
+  z-index: 3;
+  pointer-events: none;
+}
+#icons.free-icons .desktop-icon {
+  position: absolute;
+  grid-column: auto;
+  grid-row: auto;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+#icons.free-icons .desktop-icon svg,
+#icons.free-icons .desktop-icon span {
+  pointer-events: none;
+}
+#icons.free-icons .desktop-icon.icon-selected {
+  background: linear-gradient(#dbf5ff44, #b0dff530);
+  border: 1px solid #d4f7ffb3;
+  box-shadow:
+    inset 0 0 0 1px #f0ffff22,
+    0 3px 12px #15486b22;
+}
+#icons.free-icons .desktop-icon.icon-dragging {
+  cursor: grabbing;
+  background: linear-gradient(#e4faff88, #b9e8ff55);
+  border-color: #edffff;
+  box-shadow:
+    0 14px 24px #11365366,
+    inset 0 0 0 1px #fff7;
+  z-index: 100;
+  transform: scale(1.08) rotate(-3deg);
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+}
+#icons.free-icons .icon-dragging svg {
+  filter: drop-shadow(0 0 9px #d4ffff);
+  transform: translateY(-3px);
+}
+#icons.free-icons.drag-active {
+  z-index: 2500;
+}
+.dragging-desktop-icon,
+.dragging-desktop-icon * {
+  cursor: grabbing !important;
+}
+.desktop-icon:focus-visible {
+  outline: 1px dashed #f4ffff;
+  outline-offset: 2px;
+}
+.layout-settings {
+  padding: 20px;
+  background: linear-gradient(#f7fcff, #e5f1fa);
+  border-top: 1px solid #c2d9e6;
+}
+.layout-settings h3 {
+  font-size: 14px;
+  color: #366987;
+  font-weight: normal;
+  margin: 0 0 12px;
+}
+.layout-settings p {
+  font-size: 11px;
+  color: #718b9c;
+  line-height: 1.8;
+}
+.layout-settings small {
+  display: block;
+  font-size: 9px;
+  line-height: 1.8;
+  color: #7c96a5;
+  margin-top: 14px;
+}
+.desktop-widget {
+  box-shadow:
+    inset 0 1px 0 #ffffff88,
+    inset 0 -1px 0 #d8ffff22,
+    0 18px 50px #1045632b;
+}
+.desktop-widget:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(125deg, #fff3, transparent 35%, transparent 65%, #e9ffff0d);
+  pointer-events: none;
+}
+.desktop-hint {
+  font-size: 20px;
+  max-width: 410px;
+}
+.desktop-hint small {
+  letter-spacing: 1.7px;
+}
+.window.active .titlebar {
+  box-shadow: inset 0 1px #f1ffff66;
+}
+.desktop-icon.icon-selected span {
+  background: #205c8e66;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+.layout-settings .primary {
+  font-size: 10px;
+}
+@media (max-width: 700px) {
+  #icons.free-icons {
+    top: 33px;
+    bottom: 45px;
+  }
+  .desktop-hint {
+    font-size: 13px;
+    max-width: 260px;
+    bottom: 72px;
+  }
+  .desktop-hint small {
+    font-size: 5px;
+    letter-spacing: 0.8px;
+  }
+  .layout-settings {
+    padding: 15px;
+  }
+}
+.manager-actions {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+.manager-actions .primary {
+  font-size: 10px;
+  padding: 8px 12px;
+}
+#runningapps {
+  max-height: 230px;
+  overflow: auto;
+}
+.running-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 0;
+  border-bottom: 1px solid #d1e0eb;
+  font-size: 10px;
+}
+.running-row > span:first-child {
+  display: flex;
+}
+.running-row svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: none;
+}
+.running-row > span:nth-child(2) {
+  flex: 1;
+}
+.running-row small {
+  font-size: 8px;
+  color: #8299aa;
+}
+.running-row button {
+  padding: 5px;
+  border: 1px solid #b0c8d9;
+  background: #f1f9fe;
+  border-radius: 3px;
+  font-size: 9px;
+}
+.running-row button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.focus-app {
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 0, #d4f2fe, #f5faff 65%);
+}
+.focus-kicker {
+  display: block;
+  letter-spacing: 2px;
+  font-size: 7px;
+  color: #8aabba;
+  margin: 6px;
+}
+.focus-app h2 {
+  font:
+    normal 27px Georgia,
+    serif;
+  margin: 12px 0 19px;
+  color: #477b91;
+}
+.focus-app .utility-tabs {
+  justify-content: center;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.focus-app .utility-tabs button {
+  border-radius: 20px;
+  font-size: 9px;
+  padding: 7px 17px;
+}
+.focus-app .utility-tabs .chosen {
+  border: 1px solid #8bb9cf;
+  background: #cbe9f5;
+  padding-top: 7px;
+}
+.focus-app output {
+  display: block;
+  font:
+    56px/1.2 'DM Sans',
+    Tahoma,
+    sans-serif;
+  letter-spacing: -3px;
+  color: #417e99;
+  margin: 20px 0 8px;
+}
+#focusstatus {
+  font-size: 10px;
+  color: #829eaf;
+  margin-bottom: 18px;
+}
+.focus-config {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 21px;
+}
+.focus-config label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: #809bad;
+}
+.focus-config input {
+  width: 45px;
+  padding: 5px;
+  border: 1px solid #aac8d9;
+  background: #fff;
+  border-radius: 3px;
+  font-size: 10px;
+}
+#focuscount {
+  font-size: 9px;
+  color: #6f9cb0;
+}
+.focus-app small {
+  font-size: 8px;
+  line-height: 1.7;
+}
+#quickcommand {
+  height: 31px;
+  border: 1px solid #c4e9ff77;
+  border-radius: 4px;
+  color: white;
+  background: linear-gradient(#c2e5f344, #80b2d133);
+  font-size: 9px;
+  padding: 5px 9px;
+  white-space: nowrap;
+}
+#command-palette {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 15vh 16px 20px;
+  background: #12385455;
+  backdrop-filter: blur(7px);
+}
+#command-palette[hidden] {
+  display: none;
+}
+.command-panel {
+  width: 480px;
+  max-width: 100%;
+  border: 1px solid #daf5ff99;
+  border-radius: 12px;
+  background: linear-gradient(140deg, #f4fcfff5, #dceef9ed);
+  box-shadow:
+    0 30px 100px #082b5480,
+    inset 0 1px #fff;
+  overflow: hidden;
+  animation: window-in 0.25s ease;
+}
+.command-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 19px;
+  border-bottom: 1px solid #b9d6e6;
+  color: #6096af;
+  font-size: 24px;
+}
+.command-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  color: #315f7d;
+  font-size: 14px;
+}
+.command-search button {
+  font-size: 9px;
+  color: #759cb2;
+  border: 1px solid #bed5e2;
+  padding: 4px 6px;
+  border-radius: 3px;
+}
+#commandresults {
+  max-height: 300px;
+  overflow: auto;
+  padding: 8px;
+}
+#commandresults > button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  text-align: left;
+  color: #456f88;
+  font-size: 11px;
+}
+#commandresults svg {
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: none;
+}
+#commandresults .command-selected {
+  background: linear-gradient(#fff, #daeffb);
+  border-color: #a9d3e8;
+  box-shadow: 0 2px 5px #4a91b31a;
+}
+#commandresults p {
+  font-size: 11px;
+  padding: 20px;
+  color: #809daf;
+}
+.command-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 17px;
+  border-top: 1px solid #c1dcea;
+  color: #88a4b7;
+  font-size: 8px;
+  letter-spacing: 0.2px;
+}
+@media (max-width: 700px) {
+  #quickcommand {
+    font-size: 8px;
+    padding: 4px;
+  }
+  #quicksticky {
+    display: none;
+  }
+  .running-row {
+    gap: 5px;
+  }
+  .running-row small {
+    display: none;
+  }
+  .focus-app output {
+    font-size: 49px;
+  }
+  .command-footer {
+    font-size: 6px;
+  }
+  .command-search input {
+    font-size: 12px;
+  }
+  .manager-actions .primary {
+    font-size: 9px;
+  }
+}
